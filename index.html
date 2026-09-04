@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>공부노트 — 노션 · 엑셀 강의</title>
+<title>공부노트 — 노션 · 엑셀 · IELTS 강의</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
@@ -242,6 +242,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--primary);outline-of
 .cal-big .mk{font-size:9.5px;font-weight:700;border-radius:99px;padding:2.5px 7px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cal-big .mk.n{background:var(--primary-soft);color:var(--primary-deep)}
 .cal-big .mk.x{background:var(--excel-soft);color:var(--excel-deep)}
+.cal-big .mk.i{background:var(--ielts-soft);color:var(--ielts-deep)}
 .cal-legend{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
 .cal-legend .lg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--sub);background:#F1F3F8;border:1px solid var(--line);padding:6px 13px;border-radius:99px;font-weight:500}
 .cal-legend .lg .swatch{width:13px;height:13px;border-radius:4.5px}
@@ -311,6 +312,47 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:34px 0 48px;colo
 .r-course.ielts{color:var(--ielts-deep);background:var(--ielts-soft)}
 .cert-badge.ielts{background:linear-gradient(135deg,#FFE9EE,#FBC4D4)}
 .cc-cert.ielts{color:var(--ielts-deep);background:var(--ielts-soft);border-color:#F8B4C6}
+
+
+/* ── 핵심 포인트 토글 설명 ── */
+.block-h .ico.b4{background:var(--ielts-soft);color:var(--ielts-deep)}
+.point-guide{display:flex;flex-direction:column;gap:10px}
+.ptoggle{background:#FBFCFF;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .18s, box-shadow .18s, background .18s}
+.ptoggle[open]{background:var(--surface);box-shadow:var(--shadow-sm)}
+.point-guide.notion .ptoggle[open]{border-color:#D9DCFC}
+.point-guide.excel .ptoggle[open]{border-color:#BFE4D1}
+.point-guide.ielts .ptoggle[open]{border-color:#F5B4C3}
+.ptoggle summary{list-style:none;display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer}
+.ptoggle summary::-webkit-details-marker{display:none}
+.pt-no{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;font-weight:800;flex-shrink:0;background:#F1F3F8;color:var(--sub);margin-top:1px}
+.point-guide.notion .pt-no{background:var(--primary-soft);color:var(--primary-deep)}
+.point-guide.excel .pt-no{background:var(--excel-soft);color:var(--excel-deep)}
+.point-guide.ielts .pt-no{background:var(--ielts-soft);color:var(--ielts-deep)}
+.pt-sum{flex:1;min-width:0}
+.pt-sum b{display:block;font-size:14.5px;line-height:1.5;color:var(--ink)}
+.pt-sum span{display:block;font-size:12px;color:var(--sub);margin-top:3px}
+.pt-arr{margin-left:auto;color:var(--sub);font-size:13px;transition:transform .18s;line-height:1;padding-top:6px}
+.ptoggle[open] .pt-arr{transform:rotate(180deg)}
+.pt-body{padding:0 16px 16px 16px}
+.pt-copy{border-top:1px dashed var(--line);padding-top:14px}
+.pt-copy p{font-size:13.6px;color:#3C4353;margin:0 0 8px;line-height:1.72}
+.pt-copy p:last-child{margin-bottom:0}
+.pt-copy b{color:var(--ink)}
+.pt-mini{margin-top:12px;border:1px solid var(--line);border-radius:12px;background:#F8FAFD;padding:11px 11px 8px}
+.pt-mini-cap{font-size:11.5px;font-weight:800;color:var(--sub);margin-bottom:8px}
+.pt-mini-art{border-radius:10px;overflow:hidden;background:#fff;border:1px solid var(--line)}
+.pt-mini-art svg{display:block;width:100%;height:auto;max-height:220px}
+.pt-mini-note{font-size:11.5px;color:var(--sub);margin-top:8px;text-align:center}
+.pt-hint{margin-top:10px;padding:10px 12px;border-radius:11px;font-size:12.2px;color:#4A5160;background:#F7F8FC;border:1px solid var(--line)}
+.point-guide.ielts .pt-hint{background:#FFF3F6;border-color:#F6C6D2}
+@media(max-width:560px){
+  .ptoggle summary{padding:12px 13px;gap:10px}
+  .pt-no{width:25px;height:25px;border-radius:8px;font-size:10px}
+  .pt-sum b{font-size:13.5px}
+  .pt-copy p{font-size:12.9px}
+  .pt-body{padding:0 13px 13px}
+  .pt-mini{padding:9px 9px 7px}
+}
 
 /* ── 반응형 ── */
 #tabbar{display:none}
@@ -683,10 +725,11 @@ const pad = n => String(n).padStart(2,'0');
 const fmtDate = s => { const [y,m,d] = s.split('-'); return y+'년 '+Number(m)+'월 '+Number(d)+'일'; };
 
 /* ── 강의 색상 헬퍼 ── */
-function colorOf(courseId){ return courseId==='notion' ? 'notion' : 'excel'; }
+function colorOf(courseId){ return courseId==='notion' ? 'notion' : (courseId==='ielts' ? 'ielts' : 'excel'); }
 function doneDates(){ return [...new Set(Object.values(done))].sort(); }
 function completedOf(courseId){
-  return Object.keys(done).filter(id => id.startsWith(courseId==='notion'?'n':'x'));
+  const prefix = courseId==='notion' ? 'n' : (courseId==='ielts' ? 'i' : 'x');
+  return Object.keys(done).filter(id => id.startsWith(prefix));
 }
 function flatLessons(cid){
   const c = COURSES[cid]; const out = [];
@@ -787,6 +830,100 @@ function ytBlock(arr){
   if(!arr || !arr.length) return '';
   return `<div class="yt-block"><div class="yt-head"><span class="y-ico">▶</span>관련 영상으로 복습해요</div>` + arr.map(ytItem).join('') + `</div>`;
 }
+}
+function courseK(cid){ return cid==='notion' ? '노션' : (cid==='excel' ? '엑셀' : 'IELTS'); }
+function hasAny(text, arr){ return arr.some(k => text.includes(k)); }
+function pointMeaning(les, point){
+  if(hasAny(point,['먼저','예측','스키밍','스캐닝','키워드'])) return '이 문장은 시작하기 전에 문제·화면·선택지를 먼저 훑어보고, 어떤 정보가 들어올지 미리 짐작하라는 뜻이에요. 먼저 큰 틀을 보면 다음 동작이 훨씬 쉬워져요.';
+  if(hasAny(point,['철자','spell','받아쓰기','숫자','날짜','시간'])) return '이 항목은 들리는 소리만 대충 넘기지 말고, 숫자·이름·날짜처럼 틀리기 쉬운 정보를 정확한 글자 단위로 붙잡으라는 뜻이에요.';
+  if(hasAny(point,['구조','파트','서론','본론','결론','소개','마무리','단락'])) return '이 내용은 전체 흐름을 먼저 잡는 연습이에요. 순서를 알고 있으면 중간에 내용을 놓쳐도 다시 따라가기 쉬워져요.';
+  if(hasAny(point,['발음','강세','연음','억양','th','모음'])) return '이 포인트는 영어 소리를 입 모양과 리듬까지 포함해서 익히라는 뜻이에요. 단어만 아는 것보다 실제 소리를 구별하는 힘이 더 중요해요.';
+  if(hasAny(point,['어휘','단어','표현'])) return '이 항목은 단어를 뜻만 외우지 말고, 실제 상황에서 바로 꺼내 쓸 수 있게 묶음으로 익히라는 뜻이에요.';
+  if(hasAny(point,['필터','정렬','그룹','뷰','보드','캘린더','표','드롭다운'])) return '이 문장은 많은 정보를 보기 좋게 정리하는 방법을 말해요. 같은 데이터라도 보는 방식이 달라지면 이해 속도가 크게 빨라져요.';
+  if(hasAny(point,['수식','함수','SUM','AVERAGE','COUNT','IF','VLOOKUP','INDEX','MATCH','TODAY','DATEDIF','dateBetween','prop('])) return '이 포인트는 사람이 매번 손으로 계산하지 말고, 규칙을 한 번 만들어 자동으로 계산하게 하라는 뜻이에요.';
+  if(hasAny(point,['드래그','복사','절대 참조','상대 참조','F4','자동 채우기'])) return '이 내용은 같은 작업을 더 빠르게 반복하기 위한 조작 요령이에요. 한 번 정확히 해 두면 이후 작업량이 크게 줄어요.';
+  if(hasAny(point,['차트','피벗','데이터베이스','관계','롤업','템플릿','매크로'])) return '이 항목은 데이터를 한 단계 더 체계적으로 다루는 고급 도구를 뜻해요. 처음에는 어렵지만, 원리를 이해하면 시간을 많이 아낄 수 있어요.';
+  if(hasAny(point,['공유','권한','댓글','멘션','협업','히스토리'])) return '이 포인트는 혼자 쓰는 문서를 넘어, 다른 사람과 안전하게 함께 일하는 방법을 뜻해요.';
+  if(hasAny(point,['오답','복습','점검','자가 채점','분석','모의'])) return '이 항목은 단순히 한 번 끝내는 것이 아니라, 틀린 이유를 찾아 다음 실수를 줄이는 훈련이에요.';
+  if(hasAny(point,['편지','Task 1','에세이','Task 2','라이팅','연결어','시제','문법'])) return '이 포인트는 글을 예쁘게 쓰는 것보다, 채점 기준에 맞게 구조와 문장을 안정적으로 만드는 연습이라고 보면 돼요.';
+  if(hasAny(point,['스피킹','큐카드','발화','파트 1','파트 2','파트 3'])) return '이 내용은 긴 답을 외우기보다, 짧은 구조를 잡고 자연스럽게 이어 말하는 힘을 기르는 포인트예요.';
+  return `이 문장은 ${courseK(les.cid)} 수업에서 꼭 행동으로 옮겨야 하는 핵심을 짧게 적어 둔 거예요. 말만 읽지 말고, 손이나 입으로 바로 따라 해 보는 것이 중요해요.`;
+}
+function pointWhy(les, point){
+  if(les.cid==='ielts'){
+    if(hasAny(point,['먼저','예측','스키밍','스캐닝','키워드'])) return 'IELTS는 시간 압박이 강해서, 준비 없이 바로 듣거나 읽으면 답이 나와도 놓치기 쉬워요. 미리 예상하면 귀와 눈이 답을 기다리는 상태가 됩니다.';
+    if(hasAny(point,['철자','spell','받아쓰기','숫자','날짜','시간'])) return '리스닝에서는 내용을 알아들었어도 철자 하나 틀리면 오답이 되기 쉬워요. 특히 이름·전화번호·날짜는 정확도가 점수로 바로 이어집니다.';
+    if(hasAny(point,['발음','강세','연음','억양','th','모음'])) return '내가 소리를 정확히 낼 수 있어야 남의 소리도 더 잘 들립니다. 발음 훈련은 스피킹뿐 아니라 리스닝에도 직접 도움이 돼요.';
+    if(hasAny(point,['오답','복습','점검','자가 채점','분석','모의'])) return '점수는 연습량보다 오답 분석의 질에서 크게 올라가요. 어디서 놓쳤는지 알아야 같은 함정에 다시 안 걸립니다.';
+    return '시험에서는 “아는 것”보다 “짧은 시간 안에 꺼내 쓰는 것”이 중요해요. 그래서 핵심 포인트를 짧고 명확한 행동으로 익혀 두어야 합니다.';
+  }
+  if(les.cid==='excel'){
+    if(hasAny(point,['수식','함수','SUM','AVERAGE','COUNT','IF','VLOOKUP','INDEX','MATCH','TODAY','DATEDIF'])) return '엑셀은 한 번 정확한 공식을 만들면 같은 계산을 수십 번, 수백 번 반복하지 않아도 돼요. 실무 속도 차이가 여기서 크게 납니다.';
+    if(hasAny(point,['드래그','복사','절대 참조','상대 참조','F4','자동 채우기'])) return '엑셀은 복사 한 번으로 표 전체가 바뀌기 때문에, 참조 방식이 틀리면 결과가 전부 어긋날 수 있어요. 작은 차이를 정확히 아는 것이 중요해요.';
+    if(hasAny(point,['차트','피벗','정렬','필터','표'])) return '정리되지 않은 데이터는 읽기도 어렵고 실수도 많아요. 보기 좋게 정리하면 바로 보고 판단할 수 있는 자료가 됩니다.';
+    return '엑셀은 클릭 순서와 셀 참조가 아주 중요해요. 오늘 배운 원리를 손에 익혀 두면 다음 작업에서도 그대로 재사용할 수 있습니다.';
+  }
+  if(hasAny(point,['관계','롤업','데이터베이스','필터','정렬','뷰'])) return '노션은 정보가 많아질수록 구조가 더 중요해져요. 정리 원리를 일찍 잡아 두면 페이지가 늘어나도 덜 헷갈립니다.';
+  if(hasAny(point,['공유','권한','댓글','멘션','협업','히스토리'])) return '노션은 혼자 메모할 때보다 함께 쓸 때 힘이 커져요. 권한과 협업 기능을 이해하면 실수 없이 같이 일할 수 있어요.';
+  return '노션은 눈으로 보기에는 쉬워 보여도, 블록·DB·속성 같은 기본 원리를 이해해야 오래 써도 깔끔하게 유지할 수 있어요.';
+}
+function pointHow(les, point){
+  if(les.cid==='ielts'){
+    if(hasAny(point,['먼저','예측','스키밍','스캐닝','키워드'])) return '실전에서는 시작 전에 5~10초만 써도 좋아요. 제목, 빈칸 앞뒤 단어, 선택지의 핵심 단어에 표시하고 답의 종류가 숫자인지, 이름인지, 장소인지 먼저 적어 두세요.';
+    if(hasAny(point,['철자','spell','받아쓰기','숫자','날짜','시간'])) return '들으면서 완벽하게 예쁘게 쓰려고 하지 말고, 먼저 빠르게 적고 마지막에 철자를 정리하세요. 숫자는 비슷한 소리(13/30), 날짜 순서(3 May/May 3rd)를 따로 연습하면 좋아요.';
+    if(hasAny(point,['발음','강세','연음','억양','th','모음'])) return '거울을 보며 입 모양을 확인하고, 짧은 문장을 녹음해서 원어민 소리와 비교해 보세요. 한 번에 많이 하기보다 3~5문장씩 반복하는 편이 더 효과적입니다.';
+    if(hasAny(point,['오답','복습','점검','자가 채점','분석','모의'])) return '틀린 문제는 정답만 보지 말고 “어느 단어에서 놓쳤는지, 왜 다른 선택지를 골랐는지”를 한 줄로 적으세요. 그 한 줄이 다음 점수를 올려 줍니다.';
+    return '문제를 풀 때는 천천히 정확하게 1회, 그 다음에는 시험 속도로 1회를 해 보세요. 이해 단계와 실전 단계는 분리해서 연습하는 것이 좋습니다.';
+  }
+  if(les.cid==='excel'){
+    if(hasAny(point,['수식','함수','SUM','AVERAGE','COUNT','IF','VLOOKUP','INDEX','MATCH','TODAY','DATEDIF'])) return '작은 표를 직접 만들고 공식을 한 칸에 먼저 완성한 뒤, 복사했을 때도 결과가 맞는지 꼭 확인해 보세요. “왜 이 범위를 잡았는지”를 입으로 설명해 보면 더 빨리 익습니다.';
+    if(hasAny(point,['드래그','복사','절대 참조','상대 참조','F4','자동 채우기'])) return '예제 표에서 한 칸만 먼저 계산한 뒤 아래로 복사해 보세요. 값이 어긋나면 어떤 주소가 움직였는지 직접 비교하면 감이 빨리 잡혀요.';
+    if(hasAny(point,['차트','피벗','정렬','필터','표','드롭다운'])) return '원본 데이터를 5~10행 정도만 만들어 놓고 직접 클릭 순서를 따라 해 보세요. 화면에서 어떤 버튼이 결과를 바꾸는지 한 번 경험해 보면 실무에서 바로 써먹기 쉬워집니다.';
+    return '손으로 따라 하는 것이 가장 중요해요. 설명을 읽은 뒤 3분 안에 같은 화면을 다시 만들어 보는 식으로 짧게 복습해 보세요.';
+  }
+  if(hasAny(point,['관계','롤업','데이터베이스','필터','정렬','뷰'])) return '새 페이지를 만들기보다 작은 예제 DB를 하나 만들어 직접 클릭해 보세요. 항목 3~5개만 넣어도 구조가 어떻게 바뀌는지 바로 체감할 수 있어요.';
+  if(hasAny(point,['공유','권한','댓글','멘션','협업','히스토리'])) return '혼자 연습할 때도 괜찮아요. 같은 페이지를 다른 브라우저나 모바일로 열어 보고, 공유 메뉴를 눌러 어떤 옵션이 있는지 직접 확인해 보세요.';
+  return '노션은 “읽기”보다 “만지기”가 더 중요해요. 오늘 포인트를 보고 바로 같은 블록이나 DB를 하나 만들어 보는 방식으로 연습해 보세요.';
+}
+function pointCaution(les, point){
+  if(les.cid==='ielts'){
+    if(hasAny(point,['NOT GIVEN','False','TRUE','T/F/NG'])) return '주의할 점은 “내 상식”으로 답을 고르지 않는 거예요. 지문에 없으면 모르는 것이고, 반대로 말했을 때만 FALSE예요.';
+    if(hasAny(point,['철자','spell','받아쓰기','숫자','날짜','시간'])) return '자주 하는 실수는 소리는 알아들었는데 표기 규칙을 틀리는 거예요. 답안지로 옮길 때 대소문자, 복수형, 단어 수 제한도 같이 확인하세요.';
+    if(hasAny(point,['서론','본론','결론','편지','에세이','Task 1','Task 2'])) return '글을 길게 쓰는 것보다 구조가 먼저예요. 시간이 부족해도 서론·본론·결론 뼈대는 꼭 지키는 습관을 들이세요.';
+    return '중요한 것은 완벽주의보다 일관성입니다. 한 문제를 오래 끌기보다, 지금 배운 전략을 같은 방식으로 여러 번 적용해 보세요.';
+  }
+  if(les.cid==='excel'){
+    if(hasAny(point,['수식','함수','절대 참조','상대 참조','F4'])) return '가장 흔한 실수는 범위를 잘못 잡고도 눈치채지 못하는 거예요. 값이 맞는지 한 셀씩 확인하는 습관을 꼭 들이세요.';
+    if(hasAny(point,['매크로'])) return '매크로는 편하지만, 저장 형식이 .xlsm인지와 보안 경고를 꼭 확인해야 해요. 출처가 불분명한 코드는 바로 실행하지 않는 습관이 중요합니다.';
+    return '버튼 위치만 외우기보다 “왜 이 메뉴를 누르는지”를 함께 기억해야 응용이 쉬워져요.';
+  }
+  return '노션은 기능이 비슷해 보여도 위치와 쓰임이 조금씩 달라요. 막히면 큰 구조(페이지→블록→DB)를 다시 떠올리면 헷갈림이 줄어듭니다.';
+}
+function pointVisual(les){
+  if(les.cid==='ielts' || !DIAG[les.id]) return '';
+  return `<div class="pt-mini"><div class="pt-mini-cap">같이 보면 좋은 화면 그림</div><div class="pt-mini-art">${DIAG[les.id]}</div><div class="pt-mini-note">설명과 함께 현재 강의의 화면 흐름을 한눈에 볼 수 있어요.</div></div>`;
+}
+function pointToggles(les){
+  const cls = les.cid==='notion' ? 'notion' : (les.cid==='ielts' ? 'ielts' : 'excel');
+  return `<div class="point-guide ${cls}">` + les.points.map((point, idx)=>`
+    <details class="ptoggle">
+      <summary>
+        <span class="pt-no">${pad(idx+1)}</span>
+        <span class="pt-sum"><b>${point}</b><span>눌러서 쉬운 설명 보기</span></span>
+        <span class="pt-arr">▾</span>
+      </summary>
+      <div class="pt-body">
+        <div class="pt-copy">
+          <p><b>쉽게 말해</b> ${pointMeaning(les, point)}</p>
+          <p><b>왜 중요할까요?</b> ${pointWhy(les, point)}</p>
+          <p><b>어떻게 적용하나요?</b> ${pointHow(les, point)}</p>
+          <p><b>실수 주의</b> ${pointCaution(les, point)}</p>
+          ${pointVisual(les)}
+          ${les.cid!=='ielts' && DIAG[les.id] ? `<div class="pt-hint">🖼️ 노션·엑셀 강의는 위의 <b>그림으로 이해하기</b> 버튼과 이 토글 설명을 같이 보면 훨씬 빨리 이해돼요.</div>` : ''}
+        </div>
+      </div>
+    </details>`).join('') + `</div>`;
+}
 
 /* ── 렌더러 ── */
 const render = {
@@ -816,9 +953,9 @@ const render = {
       const next = flatLessons(cid).find(l => !done[l.id]);
       const dotColor = cid==='notion' ? 'var(--primary)' : 'var(--excel)';
       html += `
-      <div class="course-card cc-${cid==='notion'?'notion':'excel'}">
+      <div class="course-card cc-${cid}">
         <div class="cc-icon">${c.emoji}</div>
-        <h3>${c.name} <span class="cc-cert">${cid==='excel'?'MOS Expert 대비':cid==='ielts'?'Band 6.0+ 도전':'배지 인증 대비'}</span></h3>
+        <h3>${c.name} <span class="cc-cert ${cid==='ielts'?'ielts':''}">${cid==='excel'?'MOS Expert 대비':cid==='ielts'?'Band 6.0+ 도전':'배지 인증 대비'}</span></h3>
         <p class="cc-sub">${c.tagline}</p>
         <div class="progress"><i style="width:${pct}%"></i></div>
         <div class="progress-label"><span>진도율</span><b>${pct}%</b> <span>${com}/${total}강</span></div>
@@ -924,8 +1061,8 @@ const render = {
         <div class="dg-caption">📍 이 강의의 핵심 동작을 한눈에 보여줘요</div>
       </div>`:''}
       <div class="block">
-        <div class="block-h"><span class="ico ${isN?'b1':'b2'}">📚</span>핵심 학습 포인트</div>
-        <ul class="${isN?'li-doc':'li-grid'}">${les.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+        <div class="block-h"><span class="ico ${isN?'b1':(r.cid==='ielts'?'b4':'b2')}">📚</span>핵심 학습 포인트</div>
+        ${pointToggles(les)}
       </div>
       ${ytBlock(YT[les.id])}
       <div class="block">
@@ -955,7 +1092,7 @@ const render = {
     const isThisMonth = calOffset===0;
     const totalDone = Object.keys(done).length;
     const streak = streakDays();
-    const cNotion = completedOf('notion').length, cExcel = completedOf('excel').length;
+    const cNotion = completedOf('notion').length, cExcel = completedOf('excel').length, cIelts = completedOf('ielts').length;
     let html = `
     <div class="cal-page-head">
       <div><h1>학습 달력</h1><p class="cp-sub">형광으로 칠해진 날이 공부한 날이에요</p></div>
@@ -975,10 +1112,11 @@ const render = {
       <span class="lg"><span class="swatch" style="background:var(--amber-soft);box-shadow:inset 0 0 0 1.5px #F0DEA0"></span> 공부한 날</span>
       <span class="lg"><span class="swatch" style="background:var(--primary-soft);box-shadow:inset 0 0 0 1.5px #D9DCFC"></span> 노션 강의</span>
       <span class="lg"><span class="swatch" style="background:var(--excel-soft);box-shadow:inset 0 0 0 1.5px #C9EBDD"></span> 엑셀 강의</span>
+      <span class="lg"><span class="swatch" style="background:var(--ielts-soft);box-shadow:inset 0 0 0 1.5px #F8B4C6"></span> IELTS 강의</span>
       <span class="lg"><span class="swatch" style="background:var(--surface);box-shadow:inset 0 0 0 2px var(--primary)"></span> 오늘</span>
     </div>
     <div class="sec-head"><h2>강좌별 현황</h2></div>
-    <div class="course-grid" style="grid-template-columns:1fr 1fr">
+    <div class="course-grid" style="grid-template-columns:repeat(3,1fr)">
       <div class="course-card cc-notion" style="cursor:pointer" onclick="location.hash='course/notion'">
         <div class="cc-icon">📄</div><h3>${COURSES.notion.name}</h3><p class="cc-sub">${COURSES.notion.tagline}</p>
         <div class="progress"><i style="width:${Math.round(cNotion/14*100)}%"></i></div>
@@ -988,6 +1126,11 @@ const render = {
         <div class="cc-icon">📊</div><h3>${COURSES.excel.name}</h3><p class="cc-sub">${COURSES.excel.tagline}</p>
         <div class="progress"><i style="width:${Math.round(cExcel/14*100)}%"></i></div>
         <div class="progress-label"><span>진도율</span><b>${Math.round(cExcel/14*100)}%</b> <span>${cExcel}/14강</span></div>
+      </div>
+      <div class="course-card cc-ielts" style="cursor:pointer" onclick="location.hash='course/ielts'">
+        <div class="cc-icon">🇬🇧</div><h3>${COURSES.ielts.name}</h3><p class="cc-sub">${COURSES.ielts.tagline}</p>
+        <div class="progress"><i style="width:${Math.round(cIelts/100*100)}%"></i></div>
+        <div class="progress-label"><span>진도율</span><b>${Math.round(cIelts/100*100)}%</b> <span>${cIelts}/100강</span></div>
       </div>
     </div>`;
     return html;
@@ -1023,7 +1166,7 @@ function bigCal(y, m, isThisMonth){
   const domArr = ['일','월','화','수','목','금','토'];
   const dayDoneMap = {};
   Object.keys(done).forEach(lid=>{
-    const cid = lid.startsWith('n')?'notion':'excel';
+    const cid = lid.startsWith('n') ? 'notion' : (lid.startsWith('i') ? 'ielts' : 'excel');
     const date = done[lid];
     (dayDoneMap[date] = dayDoneMap[date] || []).push({cid, title: (COURSES[cid]? flatLessons(cid).find(l=>l.id===lid) : null)});
   });
@@ -1037,7 +1180,7 @@ function bigCal(y, m, isThisMonth){
     html += `<div class="day ${marks.length?'done':''} ${isToday?'today':''} ${isWeekend&&!marks.length?'':''}">
       <span class="d-n">${d}</span>
       ${isWeekend?'<span class="d-wk">'+domArr[new Date(y,m,d).getDay()]+'</span>':''}
-      <div class="d-marks">${marks.map(mk=>`<span class="mk ${mk.cid==='notion'?'n':'x'}">${mk.title ? mk.title.split('·')[0] : mk.cid}</span>`).join('')}</div>
+      <div class="d-marks">${marks.map(mk=>`<span class="mk ${mk.cid==='notion'?'n':(mk.cid==='ielts'?'i':'x')}">${mk.title ? mk.title.split('·')[0] : mk.cid}</span>`).join('')}</div>
     </div>`;
   }
   const tail = (startDow+days)%7; if(tail) for(let i=tail;i<7;i++) html += `<div class="day out"></div>`;
@@ -1049,16 +1192,16 @@ function calMove(n){ calOffset += n; route(); }
 /* ── 최근 기록 ── */
 function recentLog(){
   const entries = Object.entries(done).map(([lid,date])=>{
-    const cid = lid.startsWith('n')?'notion':'excel';
+    const cid = lid.startsWith('n') ? 'notion' : (lid.startsWith('i') ? 'ielts' : 'excel');
     const title = (flatLessons(cid).find(l=>l.id===lid)||{}).title || lid;
     return {date, cid, title};
   }).sort((a,b)=> b.date.localeCompare(a.date)).slice(0,5);
   if(!entries.length) return `<div style="padding:18px 4px;color:var(--sub);font-size:14px">아직 공부 기록이 없어요.<br>첫 수업을 완료해 보세요! ✨</div>`;
-  const dmap = {notion:'📄', excel:'📊'};
+  const dmap = {notion:'📄', excel:'📊', ielts:'🇬🇧'};
   return entries.map(e=>`
     <div class="recent-row">
       <span class="r-date">${e.date.slice(5).replace('-','.')}</span>
-      <span class="r-dot" style="background:${e.cid==='notion'?'var(--primary)':'var(--excel)'}"></span>
+      <span class="r-dot" style="background:${e.cid==='notion'?'var(--primary)':(e.cid==='ielts'?'var(--ielts)':'var(--excel)')}"></span>
       <span class="r-title">${e.title}</span>
       <span class="r-course ${e.cid}">${dmap[e.cid]} ${COURSES[e.cid].name}</span>
     </div>`).join('');

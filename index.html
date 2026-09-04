@@ -830,7 +830,6 @@ function ytBlock(arr){
   if(!arr || !arr.length) return '';
   return `<div class="yt-block"><div class="yt-head"><span class="y-ico">▶</span>관련 영상으로 복습해요</div>` + arr.map(ytItem).join('') + `</div>`;
 }
-}
 function courseK(cid){ return cid==='notion' ? '노션' : (cid==='excel' ? '엑셀' : 'IELTS'); }
 function hasAny(text, arr){ return arr.some(k => text.includes(k)); }
 function pointMeaning(les, point){

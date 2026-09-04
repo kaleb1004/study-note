@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>공부노트 — 노션 · 엑셀 강의</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#F6F7FA;
+  --surface:#FFFFFF;
+  --ink:#16181F;
+  --sub:#667085;
+  --line:#E8EAF1;
+  --line2:#D6DAE5;
+  --primary:#4F46E5;
+  --primary-deep:#4338CA;
+  --primary-soft:#EEF0FE;
+  --excel:#059669;
+  --excel-deep:#047857;
+  --excel-soft:#E6F5EF;
+  --blue:#2563EB;
+  --blue-soft:#EAF1FE;
+  --amber:#F7C948;
+  --amber-deep:#7C4A03;
+  --amber-soft:#FFF6DD;
+  --radius-lg:18px;
+  --radius-md:13px;
+  --radius-sm:9px;
+  --shadow-sm:0 1px 2px rgba(16,24,40,.05);
+  --shadow-md:0 1px 3px rgba(16,24,40,.05), 0 6px 20px rgba(16,24,40,.06);
+  --font:'Pretendard','Noto Sans KR',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --font-mono:'JetBrains Mono','Pretendard',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum"}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.view{display:none;animation:fadeIn .35s ease;min-height:60vh}
+.view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ── 탑바 ── */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-size:18.5px;font-weight:800;letter-spacing:-.03em}
+.logo .dot{width:11px;height:11px;border-radius:3.5px;background:linear-gradient(135deg,var(--primary),#8B5CF6);transform:rotate(45deg);box-shadow:0 2px 6px rgba(79,70,229,.35)}
+.nav{display:flex;align-items:center;gap:4px}
+.nav a{padding:8px 16px;border-radius:99px;font-size:13.5px;font-weight:500;color:var(--sub);transition:all .18s}
+.nav a:hover{color:var(--ink);background:#F1F3F8}
+.nav a.active{color:var(--primary-deep);background:var(--primary-soft);font-weight:700}
+
+/* ── 히어로 ── */
+.hero{position:relative;padding:52px 0 6px;background:radial-gradient(900px 280px at 85% -30%,rgba(79,70,229,.07),transparent 60%),radial-gradient(700px 220px at -8% 120%,rgba(5,150,105,.05),transparent 55%)}
+.hero .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;color:var(--sub);background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-sm);padding:7px 15px;border-radius:99px}
+.hero .kicker b{color:var(--ink);font-weight:700}
+.hero h1{font-size:clamp(30px,4.5vw,43px);font-weight:800;line-height:1.28;margin:18px 0 8px;letter-spacing:-.035em}
+.hero h1 .hl{background:linear-gradient(180deg,transparent 62%,var(--amber-soft) 62%);padding:0 7px;border-radius:5px}
+.hero p{color:var(--sub);font-size:15.5px}
+.hero p b{color:var(--ink);font-weight:600}
+
+/* ── 통계 스트립 ── */
+.stats-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:32px 0 6px}
+.sstat{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm);padding:18px 20px;display:flex;align-items:center;gap:14px}
+.ss-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.sstat:nth-child(1) .ss-ico{background:var(--primary-soft)}
+.sstat:nth-child(2) .ss-ico{background:var(--amber-soft)}
+.sstat:nth-child(3) .ss-ico{background:var(--excel-soft)}
+.ss-v{font-family:var(--font-mono);font-size:23px;font-weight:700;line-height:1.2}
+.ss-v small{font-size:13px;color:var(--sub);font-weight:600}
+.ss-k{font-size:12.5px;color:var(--sub)}
+.sstat.grow{background:linear-gradient(135deg,#F8F9FD,#F3F4FE);border-color:#E3E5F6}
+
+/* ── 섹션 헤더 ── */
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin:38px 0 16px;gap:12px}
+.sec-head h2{font-size:21px;font-weight:800;letter-spacing:-.02em}
+.sec-head .more{font-size:13.5px;color:var(--sub);font-weight:600}
+.sec-head .more:hover{color:var(--primary)}
+
+/* ── 강좌 카드 ── */
+.course-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.course-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:26px 26px 22px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.course-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.cc-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:16px}
+.cc-notion .cc-icon{background:linear-gradient(135deg,#EEF0FE,#DFE3FD);color:var(--primary)}
+.cc-excel .cc-icon{background:linear-gradient(135deg,#E6F5EF,#D2EEE1);color:var(--excel-deep)}
+.course-card h3{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.course-card .cc-sub{color:var(--sub);font-size:13.5px;margin:5px 0 20px}
+.progress{height:6px;background:#EEF0F5;border-radius:99px;overflow:hidden;margin-bottom:7px}
+.progress i{display:block;height:100%;border-radius:99px;transition:width .5s ease}
+.cc-notion .progress i{background:linear-gradient(90deg,#6366F1,#4F46E5)}
+.cc-excel .progress i{background:linear-gradient(90deg,#10B981,#059669)}
+.progress-label{display:flex;justify-content:space-between;font-size:12.5px;color:var(--sub);margin-bottom:16px}
+.progress-label b{font-family:var(--font-mono);color:var(--ink);font-weight:700}
+.cc-next{font-size:13px;color:var(--sub);margin-bottom:18px;flex:1}
+.cc-next b{color:var(--ink);font-weight:600}
+.cc-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:12px;font-size:14.5px;font-weight:700;color:#fff;transition:all .18s}
+.cc-btn .arr{transition:transform .18s}
+.cc-btn:hover .arr{transform:translateX(3px)}
+.cc-notion .cc-btn{background:var(--primary)}
+.cc-notion .cc-btn:hover{background:var(--primary-deep);box-shadow:0 6px 16px rgba(79,70,229,.32)}
+.cc-excel .cc-btn{background:var(--excel)}
+.cc-excel .cc-btn:hover{background:var(--excel-deep);box-shadow:0 6px 16px rgba(5,150,105,.32)}
+
+/* ── 미니 달력 ── */
+.mini-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-top:4px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:22px 24px}
+.card h2{font-size:17px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.card .card-sub{font-size:12.5px;color:var(--sub);margin-bottom:16px}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:5px}
+.cal-dow span{text-align:center;font-size:11px;font-weight:700;color:var(--sub);padding:4px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-cell{aspect-ratio:1;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--sub);position:relative}
+.cal-cell.blank{visibility:hidden}
+.cal-cell.weekend{color:#C3C9D6}
+.cal-cell.today{font-weight:700;color:var(--ink);box-shadow:inset 0 0 0 2px var(--primary)}
+.cal-cell.done{background:var(--amber);color:var(--amber-deep);font-weight:700;box-shadow:inset 0 0 0 1.5px rgba(124,74,3,.18)}
+.cal-mini-legend{display:flex;align-items:center;gap:8px;margin-top:15px;font-size:12px;color:var(--sub)}
+.swatch{width:14px;height:14px;border-radius:5px;background:var(--amber);display:inline-block;flex-shrink:0}
+
+/* 최근 기록 */
+.recent-list{display:flex;flex-direction:column}
+.recent-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.recent-row:last-child{border-bottom:none;padding-bottom:2px}
+.r-date{font-family:var(--font-mono);font-size:12px;color:var(--sub);min-width:60px}
+.r-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.r-title{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.r-course{font-size:11px;color:var(--sub);flex-shrink:0;padding:3px 10px;border-radius:99px;font-weight:600}
+.r-course.notion{color:var(--primary-deep);background:var(--primary-soft)}
+.r-course.excel{color:var(--excel-deep);background:var(--excel-soft)}
+
+/* ── 강좌 상세 ── */
+.course-head{display:flex;align-items:center;gap:18px;padding:30px 0 22px;flex-wrap:wrap}
+.ch-icon{width:58px;height:58px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0}
+.course-head h1{font-size:clamp(24px,3.4vw,30px);font-weight:800;letter-spacing:-.03em}
+.course-head .ch-sub{color:var(--sub);font-size:14px;margin-top:3px}
+.course-head .ch-meta{margin-left:auto;text-align:right}
+.ch-pct{font-family:var(--font-mono);font-size:26px;font-weight:700}
+.ch-pct small{font-size:13px;color:var(--sub)}
+.back-btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--sub);padding:6px 2px;transition:color .15s}
+.back-btn:hover{color:var(--primary)}
+.chapter{margin-bottom:28px}
+.chapter-tag{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.chapter-tag .cno{font-family:var(--font-mono);font-size:11.5px;font-weight:700;color:var(--sub);background:#F1F3F8;border:1px solid var(--line);padding:3px 10px;border-radius:99px;letter-spacing:.03em}
+.chapter-tag .name{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.chapter-tag .chip{font-size:11.5px;padding:3px 10px;border-radius:99px;font-weight:700}
+.lvl-basic .chip{background:var(--excel-soft);color:var(--excel-deep)}
+.lvl-mid .chip{background:var(--blue-soft);color:var(--blue)}
+.lvl-adv .chip{background:var(--primary-soft);color:var(--primary-deep)}
+.lesson-list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+.lesson-row{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid var(--line);transition:background .15s;cursor:pointer}
+.lesson-row:last-child{border-bottom:none}
+.lesson-row:hover{background:#FAFBFD}
+.lesson-num{font-family:var(--font-mono);font-size:11.5px;color:var(--sub);background:#F1F3F8;border:1px solid var(--line);border-radius:7px;padding:2.5px 8px;min-width:36px;text-align:center;font-weight:600}
+.lesson-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--line2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;transition:all .15s;background:var(--surface)}
+.lesson-row.is-done .lesson-check{border-color:var(--excel);background:var(--excel)}
+.lesson-check svg{opacity:0;transform:scale(.5);transition:all .15s}
+.lesson-row.is-done .lesson-check svg{opacity:1;transform:scale(1)}
+.lesson-title{flex:1;font-size:15px;font-weight:600;color:var(--ink)}
+.lesson-row.is-done .lesson-title{color:var(--sub);text-decoration:line-through;text-decoration-color:#C3C9D6}
+.lesson-time{font-size:12.5px;color:var(--sub);display:flex;align-items:center;gap:5px;flex-shrink:0;font-weight:500}
+.lesson-arrow{color:#C8CDD9;transition:all .15s}
+.lesson-row:hover .lesson-arrow{transform:translateX(3px);color:var(--primary)}
+
+/* ── 강의 상세 ── */
+.lesson-detail{max-width:780px;margin:0 auto;padding:26px 0 60px}
+.ld-bread{font-size:13px;color:var(--sub);margin:14px 0 26px;display:flex;align-items:center;gap:8px}
+.ld-bread a:hover{color:var(--primary)}
+.ld-bread .sep{color:var(--line2)}
+.ld-head{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:32px 32px 26px;position:relative;overflow:hidden}
+.ld-head::before{content:"";position:absolute;top:0;left:0;right:0;height:5px}
+.ld-head.heart-notion::before{background:linear-gradient(90deg,#818CF8,#4F46E5)}
+.ld-head.heart-excel::before{background:linear-gradient(90deg,#34D399,#059669)}
+.ld-type{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:99px;margin-bottom:16px}
+.ld-head.heart-notion .ld-type{background:var(--primary-soft);color:var(--primary-deep)}
+.ld-head.heart-excel .ld-type{background:var(--excel-soft);color:var(--excel-deep)}
+.ld-head h1{font-size:clamp(22px,3.2vw,29px);font-weight:800;line-height:1.35;letter-spacing:-.03em}
+.ld-meta{display:flex;gap:18px;margin-top:15px;color:var(--sub);font-size:12.5px;align-items:center;font-weight:500}
+.ld-meta .mono{font-family:var(--font-mono)}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm);padding:24px 26px;margin-top:14px}
+.block-h{display:flex;align-items:center;gap:10px;font-size:15.5px;font-weight:800;letter-spacing:-.02em;margin-bottom:13px}
+.block-h .ico{width:27px;height:27px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13.5px;flex-shrink:0}
+.block-h .ico.b1{background:var(--primary-soft);color:var(--primary)}
+.block-h .ico.b2{background:var(--excel-soft);color:var(--excel-deep)}
+.block-h .ico.b3{background:var(--amber-soft);color:var(--amber-deep)}
+.block ul{list-style:none}
+.block li{position:relative;padding:6.5px 0 6.5px 24px;font-size:14.5px;color:#3C4353}
+.block li::before{content:"";position:absolute;left:2px;top:15px;width:7px;height:7px;border-radius:2.5px;background:var(--line2)}
+.block ul.li-doc li::before{background:var(--primary)}
+.block ul.li-grid li::before{background:var(--excel)}
+.goal-box{border-radius:14px;padding:19px 22px;margin-top:16px;display:flex;gap:14px;align-items:flex-start}
+.goal-box.n{background:linear-gradient(180deg,#F7F8FF,#EEF0FE);border:1px solid #DFE2FC}
+.goal-box.xl{background:linear-gradient(180deg,#F6FBF8,#E6F5EF);border:1px solid #C9EBDA}
+.goal-box .g-ico{font-size:20px;margin-top:1px}
+.goal-box b{display:block;font-size:13.5px;margin-bottom:4px;font-weight:800}
+.goal-box p{font-size:14.5px;color:#3C4353}
+.done-zone{margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:28px;background:var(--surface);border:1px dashed var(--line2);border-radius:16px}
+.done-btn{display:inline-flex;align-items:center;gap:9px;padding:14px 32px;border-radius:13px;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(135deg,#10B981,#059669);transition:all .18s;box-shadow:0 4px 14px rgba(5,150,105,.3)}
+.done-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(5,150,105,.38)}
+.done-btn.done{background:#F1F3F8;color:var(--sub);box-shadow:none}
+.done-zone .dz-hint{font-size:12.5px;color:var(--sub)}
+.lesson-nav{display:flex;justify-content:space-between;gap:14px;margin-top:16px}
+.lnav{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 18px;transition:all .15s}
+.lnav:hover{border-color:#CFD2F5;box-shadow:var(--shadow-sm)}
+.lnav.right{text-align:right}
+.lnav .l-label{font-size:11.5px;color:var(--sub);font-weight:700}
+.lnav .l-title{font-size:13.5px;font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lnav.right .l-title{color:var(--primary-deep)}
+
+/* ── 달력 페이지 ── */
+.cal-page-head{display:flex;align-items:center;justify-content:space-between;padding:36px 0 6px;flex-wrap:wrap;gap:14px}
+.cal-page-head h1{font-size:clamp(24px,3.4vw,31px);font-weight:800;letter-spacing:-.03em}
+.cal-page-head .cp-sub{color:var(--sub);font-size:14px;margin-top:3px}
+.cal-nav{display:flex;align-items:center;gap:8px}
+.cal-nav button{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:17px;transition:all .15s;color:var(--ink)}
+.cal-nav button:hover{background:#F1F3F8}
+.cal-nav .ym{font-size:16px;font-weight:800;min-width:120px;text-align:center;letter-spacing:-.02em}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm);padding:18px 20px}
+.stat .s-v{font-family:var(--font-mono);font-size:26px;font-weight:700;line-height:1.2}
+.stat .s-v small{font-size:15px;color:var(--sub)}
+.stat .s-k{font-size:12.5px;color:var(--sub);margin-top:3px}
+.cal-big{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:24px 26px}
+.cal-big .dow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:8px}
+.cal-big .dow span{text-align:center;font-size:12px;font-weight:700;color:var(--sub);padding:8px 0}
+.cal-big .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-big .day{min-height:92px;border-radius:12px;border:1px solid var(--line);padding:9px 10px;position:relative;transition:all .15s;background:var(--surface)}
+.cal-big .day.out{opacity:.35;background:#FAFBFD}
+.cal-big .day.today{border-color:var(--primary);box-shadow:inset 0 0 0 1px var(--primary)}
+.cal-big .d-n{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--sub)}
+.cal-big .day.today .d-n{color:#fff;background:var(--primary);border-radius:7px;width:25px;height:25px;display:flex;align-items:center;justify-content:center}
+.cal-big .d-wk{position:absolute;bottom:7px;right:8px;font-size:9px;color:#C3C9D6;font-weight:700}
+.cal-big .day.done{background:linear-gradient(180deg,#FFF8E5,#FFEFC6);border-color:#F0DEA0}
+.cal-big .day.done .d-n{color:var(--amber-deep)}
+.cal-big .d-marks{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px}
+.cal-big .mk{font-size:9.5px;font-weight:700;border-radius:99px;padding:2.5px 7px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-big .mk.n{background:var(--primary-soft);color:var(--primary-deep)}
+.cal-big .mk.x{background:var(--excel-soft);color:var(--excel-deep)}
+.cal-legend{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.cal-legend .lg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--sub);background:#F1F3F8;border:1px solid var(--line);padding:6px 13px;border-radius:99px;font-weight:500}
+.cal-legend .lg .swatch{width:13px;height:13px;border-radius:4.5px}
+
+/* ── 토스트 ── */
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1D222E;color:#fff;padding:13px 24px;border-radius:13px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:99;box-shadow:0 10px 30px rgba(0,0,0,.28);display:flex;align-items:center;gap:9px}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{border-top:1px solid var(--line);margin-top:70px;padding:34px 0 48px;color:#9AA1B0;font-size:12.5px;text-align:center;font-weight:500}
+
+/* ── 자격증 & 유튜브 ── */
+.cert-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:24px 26px;margin:20px 0 8px}
+.cert-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cert-badge{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;background:linear-gradient(135deg,#FFF4D6,#FFE9B8)}
+.cert-head .ct{font-size:17px;font-weight:800;letter-spacing:-.02em}
+.cert-head .co{font-size:12.5px;color:var(--sub);font-weight:600}
+.cert-head .cert-lnk{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--primary-deep);background:var(--primary-soft);padding:7px 14px;border-radius:99px;display:inline-flex;align-items:center;gap:6px}
+.cert-step{display:flex;gap:13px;padding:13px 0;border-bottom:1px dashed var(--line)}
+.cert-step:last-of-type{border-bottom:none;padding-bottom:2px}
+.cert-step .cs-no{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--primary-deep);background:var(--primary-soft);border-radius:7px;padding:3px 8px;height:fit-content;flex-shrink:0;margin-top:2px}
+.cert-step b{font-size:14px;display:block}
+.cert-step p{font-size:13px;color:#3C4353;margin-top:2px}
+.cert-note{font-size:12.5px;color:var(--sub);background:#F8F9FD;border:1px solid var(--line);border-radius:11px;padding:10px 14px;margin-top:12px}
+.yt-block{margin-top:14px}
+.yt-head{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;letter-spacing:-.02em;margin-bottom:11px}
+.yt-head .y-ico{width:27px;height:27px;border-radius:8px;background:#FFE8E8;color:#E5484D;display:flex;align-items:center;justify-content:center;font-size:13px}
+.yt-item{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:9px;transition:all .15s;text-align:left;width:100%}
+.yt-item:hover{border-color:#FFC2C2;box-shadow:var(--shadow-sm)}
+.yt-item .yt-thumb{width:88px;height:50px;border-radius:9px;background:linear-gradient(135deg,#FF5B5B,#C1121F);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+.yt-item .yt-info{flex:1;min-width:0}
+.yt-item .yt-info b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.yt-item .yt-info .yt-ch{font-size:11.5px;color:var(--sub);font-weight:600}
+.yt-item .yt-ts{font-family:var(--font-mono);font-size:11.5px;font-weight:700;color:#fff;background:#E5484D;border-radius:8px;padding:5px 10px;flex-shrink:0;white-space:nowrap}
+.cc-cert{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--amber-deep);background:var(--amber-soft);border:1px solid #F0DEA0;padding:4px 10px;border-radius:99px;white-space:nowrap}
+@media(max-width:560px){
+  .cert-card{padding:18px 16px}
+  .cert-head .cert-lnk{margin-left:0}
+  .yt-item{flex-wrap:wrap;gap:9px}
+  .yt-item .yt-ts{margin-left:auto}
+}
+
+/* ── 반응형 ── */
+#tabbar{display:none}
+
+@media(max-width:840px){
+  .course-grid,.mini-layout{grid-template-columns:1fr}
+  .stats-row,.stats-strip{grid-template-columns:1fr 1fr}
+  .course-head .ch-meta{margin-left:0;text-align:left;width:100%}
+}
+@media(max-width:640px){
+  body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  .topbar #nav{display:none}
+  #tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:7px 6px calc(8px + env(safe-area-inset-bottom))}
+  #tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;border-radius:12px;font-size:10.5px;font-weight:600;color:var(--sub);letter-spacing:-.01em;transition:color .15s}
+  #tabbar a .ti{font-size:19px;line-height:1}
+  #tabbar a.active{color:var(--primary-deep)}
+  #tabbar a.active .ti{transform:translateY(-1px)}
+  #tabbar a:active{background:var(--primary-soft)}
+  .hero{padding:32px 0 4px}
+  .hero h1{margin-top:14px}
+  #toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+  footer{padding:28px 0 calc(24px + env(safe-area-inset-bottom))}
+}
+@media(max-width:560px){
+  .wrap{padding:0 16px}
+  .topbar .wrap{height:56px}
+  .logo{font-size:16.5px}
+  .logo .dot{width:10px;height:10px}
+  .hero h1{font-size:clamp(26px,7.6vw,33px)}
+  .hero p{font-size:14.5px}
+  .hero .kicker{font-size:11.5px;padding:6px 12px}
+  .stats-strip{grid-template-columns:1fr;gap:10px;margin:22px 0 2px}
+  .sstat{padding:13px 16px;gap:12px;border-radius:14px}
+  .ss-ico{width:38px;height:38px;font-size:17px;border-radius:11px}
+  .ss-v{font-size:20px}
+  .ss-k{font-size:12px}
+  .sec-head{margin:26px 0 12px;gap:8px}
+  .sec-head h2{font-size:18.5px}
+  .course-card{padding:20px 18px 18px}
+  .course-card h3{font-size:18px}
+  .cc-icon{width:42px;height:42px;font-size:19px;margin-bottom:13px}
+  .cc-sub{font-size:12.5px}
+  .cc-next{font-size:12.5px}
+  .cc-btn{width:100%}
+  .card{padding:16px 15px}
+  .card h2{font-size:16px}
+  .cal-grid{gap:2px}
+  .cal-cell{border-radius:8px;font-size:12px}
+  .cal-cell.today{box-shadow:inset 0 0 0 1.5px var(--primary)}
+  .cal-mini-legend{flex-wrap:wrap;gap:6px;font-size:11.5px}
+  .recent-row{gap:9px;padding:10px 0}
+  .r-date{min-width:44px;font-size:11px}
+  .r-course{display:none}
+  .course-head{gap:13px;padding:20px 0 16px}
+  .ch-icon{width:50px;height:50px;border-radius:13px;font-size:23px}
+  .course-head h1{font-size:clamp(20px,6.6vw,24px)}
+  .ch-sub{font-size:13px}
+  .ch-pct{font-size:21px}
+  .chapter{margin-bottom:22px}
+  .chapter-tag .name{font-size:14.5px}
+  .chapter-tag .chip{font-size:11px;padding:2.5px 8px}
+  .lesson-list{border-radius:var(--radius-md)}
+  .lesson-row{padding:13px 13px;gap:10px}
+  .lesson-num{min-width:32px;font-size:10.5px;padding:2px 6px}
+  .lesson-check{width:21px;height:21px}
+  .lesson-title{font-size:14px}
+  .lesson-time{font-size:11px}
+  .lesson-arrow{display:none}
+  .lesson-detail{padding:18px 0 48px}
+  .ld-bread{font-size:12px;margin:10px 0 20px;gap:6px}
+  .ld-head{padding:22px 20px 18px;border-radius:var(--radius-md)}
+  .ld-head h1{font-size:clamp(19px,6.2vw,23px)}
+  .ld-type{font-size:11.5px;padding:5px 11px}
+  .ld-meta{gap:10px 14px;flex-wrap:wrap}
+  .block{padding:17px 16px;border-radius:14px;margin-top:12px}
+  .block-h{font-size:14.5px}
+  .block li{font-size:13.5px;padding:5.5px 0 5.5px 21px}
+  .goal-box{padding:15px 16px;gap:11px}
+  .goal-box .g-ico{font-size:17px}
+  .goal-box b{font-size:12.5px}
+  .goal-box p{font-size:13px}
+  .done-zone{padding:22px 16px;gap:11px}
+  .done-btn{width:100%;justify-content:center;padding:14px 20px;font-size:14.5px}
+  .lesson-nav{flex-direction:column;gap:10px}
+  .lnav{padding:13px 15px}
+  .cal-page-head{padding:24px 0 4px;gap:10px}
+  .cal-page-head h1{font-size:clamp(20px,6.6vw,24px)}
+  .cal-nav{width:100%;justify-content:space-between;gap:6px}
+  .cal-nav button{width:36px;height:36px;border-radius:10px}
+  .cal-nav .ym{min-width:0;flex:1;font-size:15px}
+  .stats-row{gap:9px;margin:14px 0}
+  .stat{padding:13px 12px;border-radius:13px}
+  .stat .s-v{font-size:21px}
+  .stat .s-v small{font-size:12.5px}
+  .stat .s-k{font-size:11px;margin-top:2px}
+  .cal-big{padding:14px 10px;border-radius:var(--radius-md)}
+  .cal-big .dow{gap:3px;margin-bottom:5px}
+  .cal-big .dow span{font-size:11px;padding:5px 0}
+  .cal-big .grid{gap:3px}
+  .cal-big .day{min-height:52px;border-radius:9px;padding:5px 4px}
+  .cal-big .d-n{font-size:12px}
+  .cal-big .day.today .d-n{width:22px;height:22px;border-radius:6px}
+  .cal-big .d-wk{display:none}
+  .cal-legend{gap:7px;margin-top:12px}
+  .cal-legend .lg{font-size:11px;padding:5px 10px}
+}
+@media(max-width:400px){
+  .stats-row{grid-template-columns:1fr}
+  .cal-big .d-marks .mk{display:none}
+  .cal-big .day{min-height:42px}
+  .lesson-time{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a href="#home" class="logo"><span class="dot"></span>공부노트</a>
+    <nav class="nav" id="nav">
+      <a href="#home" data-nav="home">홈</a>
+      <a href="#course/notion" data-nav="notion">노션 강좌</a>
+      <a href="#course/excel" data-nav="excel">엑셀 강좌</a>
+      <a href="#calendar" data-nav="calendar">학습 달력</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="tabbar" id="tabbar" aria-label="모바일 내비게이션">
+  <a href="#home" data-nav="home"><span class="ti">🏠</span>홈</a>
+  <a href="#course/notion" data-nav="notion"><span class="ti">📄</span>노션</a>
+  <a href="#course/excel" data-nav="excel"><span class="ti">📊</span>엑셀</a>
+  <a href="#calendar" data-nav="calendar"><span class="ti">📅</span>달력</a>
+</nav>
+
+<main class="wrap">
+  <section id="view-home" class="view"></section>
+  <section id="view-course" class="view"></section>
+  <section id="view-lesson" class="view"></section>
+  <section id="view-calendar" class="view"></section>
+</main>
+
+<footer>공부노트 · 하루 한 강씩, 꾸준히</footer>
+<div id="toast"></div>
+
+<script>
+const COURSES = {
+  notion: {
+    id:'notion', name:'노션 마스터', emoji:'📄', color:'notion',
+    tagline:'문서부터 데이터베이스까지, 나만의 워크스페이스 만들기',
+    chapters:[
+      {name:'기초 다지기', cls:'basic', lessons:[
+        {id:'n01', title:'노션이란? 계정 만들고 시작하기', time:'12분',
+         goal:'노션의 정체를 이해하고, 워크스페이스에서 나만의 첫 페이지를 만들어 봅니다.',
+         points:['노션은 메모·문서·데이터베이스를 한곳에 모은 올인원 워크스페이스예요','노션 사이트에서 이메일로 계정을 만들고 비밀번호를 설정해요','워크스페이스는 나의 전체 공간, 페이지는 그 안의 각각의 문서예요','빈 페이지에서 + 새 페이지 또는 상단의 새 페이지 버튼으로 페이지 생성','키보드의 / 키를 누르면 모든 기능 메뉴가 나타나요'],
+         practice:'첫 페이지를 만들고, 오늘 배울 내용을 적는 일기 노트 한 장을 작성해 보세요.'},
+        {id:'n02', title:'페이지와 블록의 이해', time:'15분',
+         goal:'노션의 핵심 개념인 블록을 이해하고 자유롭게 다룰 수 있습니다.',
+         points:['노션의 모든 내용은 블록(Block) 단위로 쌓여요','빈 줄에서 / 를 누르면 텍스트·제목·목록·이미지 등 블록 삽입','블록 왼쪽의 ⋮⋮ 핸들을 드래그해 순서를 바꿀 수 있어요','블록 위에서 바꾸기 메뉴로 텍스트를 체크리스트로 변환 가능','Shift+Enter로 줄바꿈, Enter로 새 블록 생성'],
+         practice:'메모 페이지에 3개 블록을 만들고 드래그로 순서를 바꿔 보세요.'},
+        {id:'n03', title:'텍스트 서식·링크·이미지 삽입', time:'14분',
+         goal:'마크다운 단축키와 미디어 삽입으로 읽기 좋은 문서를 만듭니다.',
+         points:['**굵게** *기울임* `코드` 등 마크다운 문법이 그대로 동작해요','# 제목 단계: # ~ ###까지 사용 가능해요','텍스트를 드래그하면 나타나는 A 메뉴로 서식 적용','이미지: 파일을 끌어놓거나 /이미지 → URL 입력','링크는 붙여넣기만 해도 자동으로 연결돼요','상단 ⋯ 메뉴에서 전체 폰트/배경을 바꿀 수 있어요'],
+         practice:'공부 노트에 이미지 하나와 유용한 사이트 링크를 넣어 꾸며 보세요.'},
+        {id:'n04', title:'데이터베이스 기초 · 표 만들기', time:'16분',
+         goal:'표 데이터베이스를 만들고 속성 열을 활용해 정보를 정리합니다.',
+         points:['여러 개의 동일한 형식 데이터는 데이터베이스에 담는 게 좋아요',' /표 데이터베이스 인라인으로 페이지 안에 표 삽입','열 제목이 곧 속성(Property), 행이 곧 항목(Item)이에요','+ 새 속성에서 텍스트·숫자·체크박스·선택 등 유형 선택','열을 드래그해 순서 변경, 위쪽 ··· 로 정렬 가능'],
+         practice:'강의 일정을 관리하는 표를 만들어 보세요. 상태 선택 속성도 추가해 봅니다.'},
+        {id:'n05', title:'다섯 가지 뷰 전환', time:'13분',
+         goal:'같은 데이터를 표·보드·캘린더 등 여러 뷰로 볼 수 있습니다.',
+         points:['데이터베이스는 같은 데이터를 여러 뷰로 보여줘요','뷰 유형: 표 · 보드 · 타임라인 · 캘린더 · 리스트 · 갤러리','뷰 추가는 데이터베이스 상단의 ＋ 새 뷰','뷰를 바꿔도 데이터는 그대로, 보는 방식만 달라져요','각 뷰는 필터·정렬 설정을 따로 저장할 수 있어요'],
+         practice:'할 일 표를 만들고, 같은 데이터를 보드 뷰로 전환해 확인해 보세요.'}
+      ]},
+      {name:'중급 활용', cls:'mid', lessons:[
+        {id:'n06', title:'속성(Property)과 필터·정렬', time:'17분',
+         goal:'속성 유형을 이해하고 필터로 원하는 데이터만 골라 봅니다.',
+         points:['속성 유형: 텍스트·숫자·선택·다중 선택·날짜·체크박스 등','체크박스는 완료 여부, 날짜는 일정 관리에 유용해요','필터: 특정 조건을 만족하는 행만 보기 (예: 상태 = 진행 중)','정렬: 날짜순·우선순위순으로 나열','그룹화: 같은 값끼리 묶어서 보기','여러 조건을 결합한 필터도 저장 가능'],
+         practice:'할 일 표에 우선순위 선택 속성을 추가하고, 필터로 「우선순위 높음」만 골라 보세요.'},
+        {id:'n07', title:'보드 뷰로 칸반 만들기', time:'15분',
+         goal:'보드 뷰로 칸반(진행 파이프라인)을 만들고 활용합니다.',
+         points:['보드 뷰는 카드를 그룹으로 나란히 보여줘요','상태와 같은 선택 속성 값이 칸반의 열이 되어요','카드를 드래그해 다른 열로 옮기면 상태가 바뀌어요','카드 상단 ＋로 새 카드 생성','프로젝트·습관 관리에 가장 많이 쓰이는 뷰예요'],
+         practice:'개인 프로젝트 보드를 만들고, 3단계(할 일→진행 중→완료) 칸반으로 관리해 보세요.'},
+        {id:'n08', title:'캘린더 뷰와 일정 관리', time:'14분',
+         goal:'날짜 속성과 캘린더 뷰로 일정을 체계적으로 관리합니다.',
+         points:['날짜 속성이 있어야 캘린더 뷰가 동작해요','캘린더에서 날짜를 클릭해 일정을 바로 추가','카드를 드래그하면 일정을 옮길 수 있어요','날짜 속성의 편집에서 시작·종료 시간 설정','기한이 지난 항목은 슬라이더로 확인 가능'],
+         practice:'이번 주 일정을 캘린더 뷰에 담아 관리해 보세요.'},
+        {id:'n09', title:'공유와 권한 설정', time:'13분',
+         goal:'페이지를 안전하게 공유하고 권한을 이해합니다.',
+         points:['오른쪽 위 공유 버튼에서 게스트 초대','링크 공유 시 복사한 링크가 있는 사람 모두 접근 가능','권한 단계: 볼 수만 / 댓글 가능 / 편집 가능','페이지 ··· → 링크 복사로 어디서든 열기','공개 웹에 게시하면 비노션 사용자도 열람 가능'],
+         practice:'가족이나 친구에게 페이지 하나를 링크로 공유해 보세요.'},
+        {id:'n10', title:'협업 기능 · 댓글과 멘션', time:'14분',
+         goal:'댓글, 멘션, 히스토리로 함께 일하는 법을 배웁니다.',
+         points:['@ 이름 입력 시 사람을 멘션해 알림을 보내요','텍스트를 드래그 후 댓글 아이콘으로 코멘트','다른 사용자와 동시에 실시간 편집 가능','페이지 공유 시 상대의 커서가 보여요','⋯ → 페이지 히스토리로 과거 버전 복원'],
+         practice:'(혼자라면) 다른 브라우저에서 같은 페이지를 열어 동시 편집을 체험해 보세요.'}
+      ]},
+      {name:'고급 마스터', cls:'adv', lessons:[
+        {id:'n11', title:'관계형 DB와 롤업', time:'19분',
+         goal:'두 데이터베이스를 연결해 복잡한 데이터를 자동으로 집계합니다.',
+         points:['관계(Relation) 속성은 다른 DB의 항목을 불러와요','예: 과목 DB ↔ 수업 DB 연결','롤업(Rollup) 속성은 연결된 항목의 값을 요약해요','집계 방식: 합계·평균·숫자 세기·최대 등 선택','관계형 구조가 노션 고급 활용의 핵심이에요'],
+         practice:'과목 DB와 수업 DB 두 개를 만들고 관계 + 롤업으로 총 수업 수를 자동 집계해 보세요.'},
+        {id:'n12', title:'수식(Formula) 기초', time:'18분',
+         goal:'수식 속성으로 날짜 계산과 조건 판단을 자동화합니다.',
+         points:['/수식 속성으로 새 식(Formula) 열 추가','속성 이름을 입력해 값 참조, 예: prop("마감일")','dateBetween()으로 두 날짜의 차이 계산','if(조건, 참일 때, 거짓일 때)로 조건 분기','now()로 오늘 날짜를 동적으로 가져와요','결과 형식(숫자·날짜·텍스트)을 지정할 수 있어요'],
+         practice:'마감일 속성에서 남은 일수를 계산하는 D-day 수식을 만들어 보세요.'},
+        {id:'n13', title:'템플릿 버튼과 자동화', time:'17분',
+         goal:'템플릿 버튼과 DB 템플릿으로 반복 작업을 없앱니다.',
+         points:['템플릿 버튼: 클릭하면 정해진 블록 묶음이 생성돼요','페이지에 /템플릿 버튼으로 삽입','DB의 각 뷰 상단 새로 만들기 옆 ▾로 DB 템플릿 관리','템플릿 안에 날짜·담당자 등 기본값 저장 가능','웹훅·자동화로 입력 시 특정 동작 실행 가능'],
+         practice:'습관 기록용 템플릿 버튼을 만들어 매일 한 번씩 눌러보세요.'},
+        {id:'n14', title:'실전! 나만의 워크스페이스 구축', time:'20분',
+         goal:'지금까지 배운 것을 모아 개인 대시보드를 완성합니다.',
+         points:['시작 페이지를 홈 대시보드로 설계 (일정+할 일+메모)','/임베드 로 캘린더·위젯을 화면에 넣기','여러 DB를 홈에 링크로 배치해 이동 동선 최소화','노션 AI로 요약·초안 작성 활용','템플릿 갤러리에서 내 스타일 참고하기'],
+         practice:'나만의 학습 대시보드를 하나의 완성된 홈 페이지로 구축해 보세요.'}
+      ]}
+    ]
+  },
+  excel: {
+    id:'excel', name:'엑셀 실무', emoji:'📊', color:'excel',
+    tagline:'셀 개념부터 매크로까지, 데이터를 다루는 힘 키우기',
+    chapters:[
+      {name:'기초 다지기', cls:'basic', lessons:[
+        {id:'x01', title:'엑셀 시작하기 · 화면과 기본 입력', time:'12분',
+         goal:'엑셀 화면 구조를 파악하고 데이터를 입력·저장합니다.',
+         points:['셀: 행과 열이 만나는 칸, 이름 상자에 주소 표시 (예: A1)','리본 메뉴: 홈·삽입·수식 등 기능이 탭별로 정리','방향키·Enter·Tab으로 셀 이동','숫자·문자는 그대로 입력, 수식은 = 로 시작','Ctrl+S 저장, .xlsx 형식 확인'],
+         practice:'가계부 틀을 만들어 5일치 지출을 입력해 보세요.'},
+        {id:'x02', title:'셀 서식과 자동 채우기', time:'14분',
+         goal:'숫자 서식과 꾸미기로 읽기 좋은 표를 만듭니다.',
+         points:['천 단위 구분: 셀 서식 → 숫자 → 1,000 단위 구분 기호','%·통화·날짜 서식을 상황에 맞게 적용','글꼴·색·테두리·병합으로 표 완성','행/열 사이를 더블클릭하면 자동으로 크기 조절','셀 오른쪽 아래 모서리를 끌면 자동 채우기'],
+         practice:'지출 표에 통화 서식과 색을 입혀 완성해 보세요.'},
+        {id:'x03', title:'수식과 함수 입문 (SUM·AVERAGE)', time:'15분',
+         goal:'합계·평균 등 기본 함수로 계산을 자동화합니다.',
+         points:['수식: =A1+B1 형태로 직접 계산','함수: =SUM(A1:A5) 처럼 이름과 범위 사용','자동 합계(Σ) 버튼으로 한 번에 합계','=AVERAGE() 평균, =COUNT() 개수 세기','함수 삽입 대화상자에서 원하는 함수 검색'],
+         practice:'지출 표의 합계와 하루 평균 지출을 함수로 계산해 보세요.'},
+        {id:'x04', title:'상대 참조와 절대 참조', time:'15분',
+         goal:'$의 의미를 이해하고 참조를 정확히 다룹니다.',
+         points:['상대 참조: 수식을 복사하면 참조 위치도 함께 이동','절대 참조: $A$1 처럼 고정, 복사해도 변하지 않아요','혼합 참조: $A1 / A$1 형태로 행이나 열만 고정','참조를 선택하고 F4를 누르면 순환 전환','이름 정의로 셀에 이름을 붙여 사용 가능'],
+         practice:'단가×수량 시트에서 세율 셀을 절대 참조로 고정해 계산해 보세요.'},
+        {id:'x05', title:'표 만들기, 정렬과 필터', time:'15분',
+         goal:'범위를 표로 만들고 정렬·필터로 데이터를 다룹니다.',
+         points:['Ctrl+T로 범위를 표로 변환 (디자인+기능 자동)','머리글 화살표로 오름차순·내림차순 정렬','필터로 원하는 조건의 행만 표시','표 아래 자동으로 총계 행(합계) 추가','행/열 번갈아 색 스타일도 자동 적용'],
+         practice:'판매 데이터를 표로 만들고, 특정 제품만 필터로 걸러 보세요.'}
+      ]},
+      {name:'중급 활용', cls:'mid', lessons:[
+        {id:'x06', title:'논리 함수 (IF·AND·OR)', time:'16분',
+         goal:'조건에 따라 결과를 다르게 보여주는 IF를 다룹니다.',
+         points:['=IF(조건, 참일 때 값, 거짓일 때 값)','비교 연산자: >, <, >=, =, <>','AND: 모든 조건 참이어야 참 / OR: 하나라도 참','중첩 IF로 여러 조건 처리','=IFERROR() 로 오류 표시 대신 메시지 출력'],
+         practice:'시험 점수에 따라 합격/불합격을 판정하는 수식을 만들어 보세요.'},
+        {id:'x07', title:'VLOOKUP 검색 함수', time:'17분',
+         goal:'표에서 값을 찾아오는 VLOOKUP을 익힙니다.',
+         points:['=VLOOKUP(찾는 값, 범위, 열 번호, 0) 구조','마지막 인수 0 = 정확히 일치 (반드시 사용)','찾는 값은 항상 범위의 첫 열에 있어야 해요','범위를 절대 참조($)로 고정해 복사 대비','#N/A 오류 해결: IFERROR로 감싸기'],
+         practice:'상품 코드로 가격을 자동으로 찾아오는 시트를 만들어 보세요.'},
+        {id:'x08', title:'차트로 시각화하기', time:'16분',
+         goal:'데이터를 막대·꺾은선 차트로 시각화합니다.',
+         points:['범위 선택 → 삽입 → 추천 차트로 빠르게 생성','데이터 특성: 추세는 꺾은선, 비교는 막대','차트 요소: 제목·축·범례·데이터 레이블','차트 스타일과 색을 서식으로 정리','행/열 전환으로 가로·세로 표현 교체'],
+         practice:'월별 매출 데이터를 막대 차트와 꺾은선 차트 두 가지로 그려 보세요.'},
+        {id:'x09', title:'조건부 서식', time:'16분',
+         goal:'조건에 맞는 셀에 색이 자동으로 칠해지게 합니다.',
+         points:['홈 → 조건부 서식 → 셀 강조 규칙','숫자보다 크면 빨간색 등 미리 준비된 규칙 사용','상위 10개 항목 강조','데이터 막대·색조·아이콘 집합','수식으로 규칙을 만들어 조건을 자유롭게 지정'],
+         practice:'지출 표에서 예산을 초과한 항목이 자동으로 빨갛게 표시되게 해 보세요.'},
+        {id:'x10', title:'데이터 검증 · 드롭다운', time:'15분',
+         goal:'드롭다운과 입력 제한으로 실수를 방지합니다.',
+         points:['데이터 → 데이터 도구 → 데이터 검증','목록 사용자 지정으로 드롭다운 만들기','숫자·날짜·길이 제한 조건 설정','입력 메시지로 셀 안내 문구 표시','데이터 → 중복된 항목 제거로 정리'],
+         practice:'상태 열(진행 중/완료/보류)에 드롭다운을 만들어 보세요.'}
+      ]},
+      {name:'고급 마스터', cls:'adv', lessons:[
+        {id:'x11', title:'피벗 테이블', time:'19분',
+         goal:'대량의 데이터를 몇 번의 클릭으로 요약 분석합니다.',
+         points:['삽입 → 피벗 테이블, 원본 범위 선택 후 새 워크시트','행·열·값 영역에 필드를 드래그해 배치','값 필드 설정에서 합계→평균·개수로 변경','슬라이서로 보고서 위에 필터 버튼 배치','필드 목록만 바꾸면 즉시 다른 관점의 요약'],
+         practice:'연간 판매 데이터에서 월별·제품별 매출 요약을 만들어 보세요.'},
+        {id:'x12', title:'INDEX와 MATCH', time:'19분',
+         goal:'VLOOKUP의 한계를 넘어 자유롭게 검색합니다.',
+         points:['=INDEX(범위, 행 번호, 열 번호)로 위치 값 추출','=MATCH(찾을 값, 범위, 0)로 위치 번호 반환','결합: =INDEX(범위, MATCH(...))','열이 왼쪽에 있지 않아도 검색 가능 (VLOOKUP 한계 극복)','가로·세로 교차 조회표에 유용'],
+         practice:'제품×월 교차표에서 제품명과 월을 입력하면 매출이 나오게 만들어 보세요.'},
+        {id:'x13', title:'텍스트·날짜 함수로 데이터 정리', time:'17분',
+         goal:'흩어진 텍스트와 날짜 데이터를 깔끔하게 다듬습니다.',
+         points:['=LEFT()·RIGHT()·MID()로 문자열 일부 추출','=LEN() 길이, =TRIM() 공백 제거, =SUBSTITUTE() 치환','날짜는 숫자로 저장된다는 원리 이해','=TODAY() 오늘 날짜, =DATE() 조합','=DATEDIF() 나이·경력 기간 계산'],
+         practice:'주민등록번호에서 생년월일 6자리를 추출하고 날짜로 변환해 보세요.'},
+        {id:'x14', title:'매크로 기초와 자동화', time:'18분',
+         goal:'반복 작업을 매크로로 기록하고 실행합니다.',
+         points:['보기 → 매크로 → 기록 시작으로 작업 자동 기록','수행한 클릭·입력이 VBA 코드로 저장돼요','매크로 실행: Alt+F8 또는 단축키 지정','매크로가 포함된 파일은 .xlsm으로 저장','매크로는 사용 중인 PC에서만 동작, 코드 검토 후 실행'],
+         practice:'서식을 적용하는 반복 작업을 매크로로 녹화하고 실행해 보세요.'}
+      ]}
+    ]
+  }
+};
+
+/* ── 자격증 & 보충 영상 데이터 ── */
+const CERT = {
+  notion: {
+    title:'Notion 공식 배지 & 관리자 인증',
+    org:'Notion Academy (공식 무료 + 유료 인증)',
+    steps:[
+      {t:'1단계 · 기초 과정 배지', d:'Notion 기본 스킬 — 계정·워크스페이스·블록·페이지 (1~5강 대응), 아카데미 퀴즈 75%+ 통과'},
+      {t:'2단계 · 워크플로 배지', d:'공동 작업 스킬 — DB·뷰·공유·권한·협업 (6~10강 대응)'},
+      {t:'3단계 · 고급 과정 배지', d:'전문가 역량 — 관계형 DB·롤업·수식·자동화 (11~13강 대응)'},
+      {t:'4단계 · 관리자 인증(선택)', d:'배지 3종 모두 취득 후 원격 감독 시험(80%+, 정답률) 합격 → Notion Certified Admin. 응시료 약 US$100~150, 1회 구매 시 2회 응시 가능. 한국어 지원.'}
+    ],
+    link:'https://academy.notion.com',
+    linkLabel:'academy.notion.com',
+    note:'배지는 무료, 관리자 인증만 유료. 본 강좌 14강 완주 = 배지 3종 시험 대비 완료.'
+  },
+  excel: {
+    title:'MOS 365 Excel Expert',
+    org:'Microsoft 국제공인 · 국내 접수 YBM (YBMIT)',
+    steps:[
+      {t:'1단계 · 기능 마스터', d:'본 강좌 14강 완주 — 셀·함수·표·차트·피벗·매크로까지 시험 범위 전체 (기초↔Expert 2단계 중 Expert 수준)'},
+      {t:'2단계 · 시험 방식 숙지', d:'CBT 방식, 50분, 25~35문항, 프로젝트 6~7개×하위 문제 구성, 1,000점 중 700점 이상 합격'},
+      {t:'3단계 · 모의고사 실전', d:'보충 영상의 MOS 모의고사 문제풀이를 1회 푼 뒤, 검토 대상 표시 → 재제출 흐름까지 연습'},
+      {t:'4단계 · 시험 접수·응시', d:'ybmit.com에서 접수, 시험장 컴퓨터로 실기 응시, 퇴장 직후 점수 확인 가능'},
+      {t:'Bonus · MOS Master', d:'엑셀 Expert + 워드 Expert + 파워포인트 Associate 등 YBM 요건 충족 시 특별 신청 없이 자동 부여'}
+    ],
+    link:'https://www.ybmit.com',
+    linkLabel:'ybmit.com (MOS 접수)',
+    note:'Expert는 엑셀·워드만 존재, Associate는 엑셀·워드·파워포인트. 본 강좌는 Expert 대비 과정.'
+  }
+};
+const YT = {
+  n01:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강 (노션 공식 컨설턴트)', id:'ktvRbNcAtwc', s:0, e:null}],
+  n02:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강', id:'ktvRbNcAtwc', s:0, e:null}],
+  n03:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강', id:'ktvRbNcAtwc', s:0, e:null}],
+  n04:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강', id:'ktvRbNcAtwc', s:0, e:null}],
+  n05:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강 (뷰 전환·데이터베이스)', id:'ktvRbNcAtwc', s:0, e:null}],
+  n06:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강 (필터·정렬)', id:'ktvRbNcAtwc', s:0, e:null}],
+  n07:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강 (보드·칸반)', id:'ktvRbNcAtwc', s:0, e:null}],
+  n08:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강 (캘린더 뷰)', id:'ktvRbNcAtwc', s:0, e:null}],
+  n09:[{ch:'오빠두엑셀', v:'노션 초보자를 위한 60분 총정리 특강 (공유·권한)', id:'ktvRbNcAtwc', s:0, e:null}],
+  n10:[{ch:'오빠두엑셀', v:'초보자도 만드는 인생 다이어리 · 노션 자동화의 모든 것 (공식 컨설턴트)', id:'Anb5YQijnjQ', s:0, e:null}],
+  n11:[{ch:'시리얼 Sireal', v:'노션 기초 강의! 관계형 데이터 & 롤업 뿌시기', id:'S0OhvE94-qQ', s:27, e:579}],
+  n12:[{ch:'오빠두엑셀', v:'초보자도 만드는 인생 다이어리 · 노션 자동화의 모든 것 (달성률 수식)', id:'Anb5YQijnjQ', s:0, e:null}],
+  n13:[{ch:'오빠두엑셀', v:'초보자도 만드는 인생 다이어리 · 노션 자동화의 모든 것 (자동화 버튼)', id:'Anb5YQijnjQ', s:0, e:null}],
+  n14:[{ch:'오빠두엑셀', v:'초보자도 만드는 인생 다이어리 · 노션 자동화의 모든 것 (대시보드 완성)', id:'Anb5YQijnjQ', s:0, e:null}],
+  x01:[{ch:'오빠두엑셀', v:'엑셀 기초 4시간 완성 코스 (환경설정·입력·단축키)', id:'yR8_v58kN2c', s:0, e:null}],
+  x02:[{ch:'오빠두엑셀', v:'엑셀 기초 4시간 완성 코스 (자동 채우기·빠른 채우기)', id:'yR8_v58kN2c', s:0, e:null}],
+  x03:[{ch:'오빠두엑셀', v:'엑셀 함수 자동화 3시간 완벽 정리 (기본 함수~동적 배열)', id:'daIdLvzoIuE', s:0, e:null}],
+  x04:[{ch:'오빠두엑셀', v:'엑셀 함수 자동화 3시간 완벽 정리 (참조·이름)', id:'daIdLvzoIuE', s:0, e:null}],
+  x05:[{ch:'오빠두엑셀', v:'엑셀 기초 4시간 완성 코스 (표 기능·정렬·필터)', id:'yR8_v58kN2c', s:0, e:null}],
+  x06:[{ch:'MOS 자격증 정보', v:'MOS 365 엑셀 Expert 모의고사 풀이 02_01 — 작업3 IF·AND·OR 중첩 (2:25~)', id:'sMdKRx0BHro', s:145, e:null}],
+  x07:[{ch:'오빠두엑셀', v:'엑셀 함수 자동화 3시간 완벽 정리 (XLOOKUP·검색 함수)', id:'daIdLvzoIuE', s:0, e:null}],
+  x08:[{ch:'오빠두엑셀', v:'엑셀 기초 4시간 완성 코스 (차트·시각화)', id:'yR8_v58kN2c', s:0, e:null}],
+  x09:[{ch:'오빠두엑셀', v:'엑셀 기초 4시간 완성 코스 (조건부 서식·아이콘 집합)', id:'yR8_v58kN2c', s:0, e:null}],
+  x10:[{ch:'오빠두엑셀', v:'엑셀 기초 4시간 완성 코스 (데이터 유효성 검사)', id:'yR8_v58kN2c', s:0, e:null}],
+  x11:[{ch:'오빠두엑셀', v:'엑셀 기초 4시간 완성 코스 (피벗 테이블·슬라이서)', id:'yR8_v58kN2c', s:0, e:null}],
+  x12:[{ch:'오빠두엑셀', v:'엑셀 함수 자동화 3시간 완벽 정리 (동적 배열·INDEX/MATCH 계열)', id:'daIdLvzoIuE', s:0, e:null}],
+  x13:[{ch:'오빠두엑셀', v:'엑셀 함수 자동화 3시간 완벽 정리 (TEXTSPLIT·텍스트 처리)', id:'daIdLvzoIuE', s:0, e:null}],
+  x14:[{ch:'MOS 자격증 정보', v:'MOS 365 엑셀 Expert 모의고사 풀이 02_01 — 작업1 매크로 이름 변경 (0:03~1:37)', id:'sMdKRx0BHro', s:3, e:97}]
+};
+const YT_CERT = [
+  {ch:'YBM커리어캠퍼스', v:'MOS 365 엑셀 EXPERT 자격증 소개 (시험 방식·접수·합격기준)', id:'DL8Ddc_DE8M', s:0, e:534},
+  {ch:'MOS 자격증 정보', v:'MOS 365 엑셀 Expert 모의고사 실전 풀이 (02_01)', id:'sMdKRx0BHro', s:0, e:null}
+];
+
+/* ── 상태 관리 ── */
+
+const LS_KEY = 'studyNote_done_v1';
+let done = {};
+try { done = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch(e) { done = {}; }
+function save(){ localStorage.setItem(LS_KEY, JSON.stringify(done)); }
+const todayStr = () => { const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const pad = n => String(n).padStart(2,'0');
+const fmtDate = s => { const [y,m,d] = s.split('-'); return y+'년 '+Number(m)+'월 '+Number(d)+'일'; };
+
+/* ── 강의 색상 헬퍼 ── */
+function colorOf(courseId){ return courseId==='notion' ? 'notion' : 'excel'; }
+function doneDates(){ return [...new Set(Object.values(done))].sort(); }
+function completedOf(courseId){
+  return Object.keys(done).filter(id => id.startsWith(courseId==='notion'?'n':'x'));
+}
+function flatLessons(cid){
+  const c = COURSES[cid]; const out = [];
+  c.chapters.forEach((ch,ci)=>{ ch.lessons.forEach(les=> out.push({...les, cid: cid, chName: ch.name})); });
+  return out;
+}
+function lessonIndex(cid, lid){
+  return flatLessons(cid).findIndex(l => l.id === lid);
+}
+function streakDays(){
+  const dates = doneDates();
+  if(!dates.length) return 0;
+  const set = new Set(dates);
+  let n = 0; const cur = new Date();
+  if(!set.has(todayStr())) cur.setDate(cur.getDate()-1);
+  while(set.has(cur.getFullYear()+'-'+pad(cur.getMonth()+1)+'-'+pad(cur.getDate()))){
+    n++; cur.setDate(cur.getDate()-1);
+  }
+  return n;
+}
+function doneCountOfMonth(y, m){
+  const prefix = y+'-'+pad(m);
+  return doneDates().filter(d => d.startsWith(prefix)).length;
+}
+
+/* ── 라우팅 ── */
+let calOffset = 0;
+function parseHash(){
+  const h = location.hash.replace(/^#/,'') || 'home';
+  const parts = h.split('/');
+  if(parts[0]==='course') return {v:'course', cid: parts[1]};
+  if(parts[0]==='lesson') return {v:'lesson', cid: parts[1], lid: parts[2]};
+  if(parts[0]==='calendar') return {v:'calendar'};
+  return {v:'home'};
+}
+function route(){
+  const r = parseHash();
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el = document.getElementById('view-'+r.v);
+  el.classList.add('active');
+  el.innerHTML = render[r.v](r);
+  document.querySelectorAll('#nav a, #tabbar a').forEach(a=>a.classList.toggle('active', a.dataset.nav=== (r.v==='course'? r.cid : r.v==='home'?'home':r.v)));
+  window.scrollTo({top:0});
+}
+window.addEventListener('hashchange', route);
+
+/* ── 아이콘 ── */
+const icoCheck = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const icoClock = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>';
+const icoArr = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>';
+const icoBack = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>';
+
+/* ── 유튜브 헬퍼 ── */
+function fmtTS(sec){
+  sec = Math.floor(sec||0);
+  const h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s2 = sec%60;
+  return (h? h+':'+String(m).padStart(2,'0') : m) + ':' + String(s2).padStart(2,'0');
+}
+function ytItem(y){
+  const t = y.e ? fmtTS(y.s)+' ~ '+fmtTS(y.e) : (y.s ? fmtTS(y.s)+' ~' : '전체 영상');
+  return `<a class="yt-item" href="https://www.youtube.com/watch?v=${y.id}${y.s?'&t='+Math.floor(y.s)+'s':''}" target="_blank" rel="noopener">
+      <span class="yt-thumb">▶</span>
+      <span class="yt-info"><b>${y.v}</b><span class="yt-ch">${y.ch}</span></span>
+      <span class="yt-ts">${t}</span></a>`;
+}
+function ytBlock(arr){
+  if(!arr || !arr.length) return '';
+  return `<div class="yt-block"><div class="yt-head"><span class="y-ico">▶</span>관련 영상으로 복습해요</div>` + arr.map(ytItem).join('') + `</div>`;
+}
+
+/* ── 렌더러 ── */
+const render = {
+  home(r){
+    const streak = streakDays();
+    const todayK = todayStr();
+    const d = new Date();
+    let html = `
+    <section class="hero">
+      <span class="kicker">📌 오늘은 <b>${d.getMonth()+1}월 ${d.getDate()}일 ${['일','월','화','수','목','금','토'][d.getDay()]}요일</b>
+      ${streak>0?`· ${streak}일 연속 공부 중`:'· 새 출발을 응원해요'}
+      </span>
+      <h1>하루 한 강씩, <span class="hl">꾸준히</span> 공부해요</h1>
+      <p>수업을 듣고 <b>완료 체크</b>하면 학습 달력에 공부한 날이 남아요.</p>
+    </section>`;
+    // 학습 통계
+    html += `<div class="stats-strip">
+      <div class="sstat"><span class="ss-ico">📚</span><div><div class="ss-v">${Object.keys(done).length}<small>강</small></div><div class="ss-k">총 완료한 강의</div></div></div>
+      <div class="sstat"><span class="ss-ico">🔥</span><div><div class="ss-v">${streak}<small>일</small></div><div class="ss-k">연속 학습 중</div></div></div>
+      <div class="sstat"><span class="ss-ico">📅</span><div><div class="ss-v">${doneCountOfMonth(d.getFullYear(), d.getMonth())}<small>일</small></div><div class="ss-k">이번 달 공부한 날</div></div></div>
+    </div>`;
+    // 강좌 카드
+    html += `<div class="sec-head"><h2>내 강좌</h2></div><div class="course-grid">`;
+    for(const cid of ['notion','excel']){
+      const c = COURSES[cid]; const total = flatLessons(cid).length;
+      const com = completedOf(cid).length; const pct = Math.round(com/total*100);
+      const next = flatLessons(cid).find(l => !done[l.id]);
+      const dotColor = cid==='notion' ? 'var(--primary)' : 'var(--excel)';
+      html += `
+      <div class="course-card cc-${cid==='notion'?'notion':'excel'}">
+        <div class="cc-icon">${c.emoji}</div>
+        <h3>${c.name} <span class="cc-cert">${cid==='excel'?'MOS Expert 대비':'배지 인증 대비'}</span></h3>
+        <p class="cc-sub">${c.tagline}</p>
+        <div class="progress"><i style="width:${pct}%"></i></div>
+        <div class="progress-label"><span>진도율</span><b>${pct}%</b> <span>${com}/${total}강</span></div>
+        <div class="cc-next">${next ? `다음 수업 · <b>${next.title}</b>` : '🎉 모든 강의를 완료했어요!'}</div>
+        <a href="#course/${cid}" class="cc-btn">${com===0?'강의 시작하기':'이어서 듣기'} <span class="arr">→</span></a>
+      </div>`;
+    }
+    html += `</div>`;
+    // 미니 달력 + 최근 기록
+    html += `<div class="mini-layout">
+      <div class="card">
+        <h2>이번 달 학습 달력</h2>
+        <p class="card-sub">${d.getMonth()+1}월 · 형광 표시가 공부한 날</p>
+        ${miniCal(d.getFullYear(), d.getMonth())}
+        <div class="cal-mini-legend"><span class="swatch"></span> 공부한 날 · 오늘은 파란 테두리</div>
+      </div>
+      <div class="card">
+        <h2>최근 학습 기록</h2>
+        <p class="card-sub">최근 완료한 강의</p>
+        <div class="recent-list">${recentLog()}</div>
+      </div>
+    </div>`;
+    return html;
+  },
+  course(r){
+    const c = COURSES[r.cid]; const total = flatLessons(r.cid).length;
+    const com = completedOf(r.cid).length; const pct = Math.round(com/total*100);
+    const isN = r.cid==='notion';
+    const iconBg = isN ? 'var(--primary-soft);color:var(--primary)' : 'var(--excel-soft);color:var(--excel-deep)';
+    let html = `
+    <a href="#home" class="back-btn">${icoBack} 홈으로</a>
+    <div class="course-head">
+      <div class="ch-icon" style="background:${iconBg}">${c.emoji}</div>
+      <div>
+        <h1>${c.name}</h1>
+        <p class="ch-sub">${c.tagline}</p>
+      </div>
+      <div class="ch-meta"><div class="ch-pct">${pct}% <small>완료</small></div><div style="font-size:12.5px;color:var(--sub)">${com}/${total}강 수강</div></div>
+    </div>`;
+    if(CERT[r.cid]){
+      html += `<div class="cert-card">
+        <div class="cert-head">
+          <span class="cert-badge">${r.cid==='notion'?'🎓':'🏅'}</span>
+          <div><div class="ct">${CERT[r.cid].title}</div><div class="co">${CERT[r.cid].org}</div></div>
+          <a class="cert-lnk" href="${CERT[r.cid].link}" target="_blank" rel="noopener">${CERT[r.cid].linkLabel} ↗</a>
+        </div>
+        ${CERT[r.cid].steps.map((st,si)=>`<div class="cert-step"><span class="cs-no">STEP ${si+1}</span><div><b>${st.t}</b><p>${st.d}</p></div></div>`).join('')}
+        ${r.cid==='excel' ? `<div class="yt-block" style="margin-top:6px"><div class="yt-head"><span class="y-ico">▶</span>자격증 입문 · 실전 영상</div>` + YT_CERT.map(ytItem).join('') + `</div>` : ''}
+        <div class="cert-note">${CERT[r.cid].note}</div>
+      </div>`;
+    }
+    c.chapters.forEach((ch, ci)=>{
+      html += `<div class="chapter lvl-${ch.cls}">
+        <div class="chapter-tag"><span>Chapter ${ci+1}</span><span class="chip">${ch.name}</span></div>
+        <div class="lesson-list">`;
+      ch.lessons.forEach((les, li)=>{
+        const doneThis = !!done[les.id];
+        html += `
+        <div class="lesson-row ${doneThis?'is-done':''}" onclick="location.hash='lesson/${r.cid}/${les.id}'" data-id="${les.id}">
+          <span class="lesson-num">${pad(ci*5+li+1)}</span>
+          <span class="lesson-check">${icoCheck}</span>
+          <span class="lesson-title">${les.title}</span>
+          <span class="lesson-time">${icoClock}${les.time}</span>
+          <span class="lesson-arrow">${icoArr}</span>
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+    html += `<div style="margin-top:10px;font-size:12.5px;color:var(--sub)">💡 수업을 열어 하단의 <b>수강 완료</b> 버튼을 누르면 달력에 기록돼요.</div>`;
+    return html;
+  },
+  lesson(r){
+    const c = COURSES[r.cid]; const all = flatLessons(r.cid);
+    const i = lessonIndex(r.cid, r.lid);
+    const les = all[i];
+    const isN = r.cid==='notion';
+    const heart = isN?'heart-notion':'heart-excel';
+    const doneThis = !!done[les.id];
+    const prev = i>0 ? all[i-1] : null;
+    const next = i<all.length-1 ? all[i+1] : null;
+    let html = `
+    <a href="#course/${r.cid}" class="back-btn">${icoBack} ${c.name} 목록으로</a>
+    <div class="lesson-detail">
+      <div class="ld-bread">
+        <a href="#home">홈</a><span class="sep">›</span>
+        <a href="#course/${r.cid}">${c.name}</a><span class="sep">›</span>
+        <span>${les.chName}</span>
+      </div>
+      <div class="ld-head ${heart}">
+        <span class="ld-type">${c.emoji} ${c.name} · ${les.chName}</span>
+        <h1>${pad(i+1)}. ${les.title}</h1>
+        <div class="ld-meta"><span class="mono">LESSON ${pad(i+1)} / ${pad(all.length)}</span><span>${icoClock} 예상 ${les.time}</span>${doneThis?'<span style="color:var(--excel);font-weight:600">✓ 수강 완료</span>':''}</div>
+      </div>
+      <div class="goal-box ${isN?'n':'xl'}">
+        <span class="g-ico ${isN?'n':'x'}">🎯</span>
+        <div><b>학습 목표</b><p>${les.goal}</p></div>
+      </div>
+      <div class="block">
+        <div class="block-h"><span class="ico ${isN?'b1':'b2'}">📚</span>핵심 학습 포인트</div>
+        <ul class="${isN?'li-doc':'li-grid'}">${les.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+      </div>
+      <div class="block">
+        <div class="block-h"><span class="ico b3">✏️</span>직접 해보기 · 실습</div>
+        <p style="font-size:15px;color:#3A3F4B">${les.practice}</p>
+      </div>
+      ${ytBlock(YT[les.id])}
+      <div class="done-zone">
+        <button class="done-btn ${doneThis?'done':''}" onclick="toggleDone('${r.cid}','${les.id}')">
+          ${doneThis ? '✓ 완료한 수업이에요 · 다시 누르면 취소' : '수강 완료로 표시하기'}
+        </button>
+        <div class="dz-hint">완료하면 오늘 날짜( ${fmtDate(todayStr())} )가 학습 달력에 기록돼요.</div>
+      </div>
+      <div class="lesson-nav">
+        ${prev ? `<a class="lnav" href="#lesson/${r.cid}/${prev.id}"><div class="l-label">← 이전 수업</div><div class="l-title">${prev.title}</div></a>` : '<div></div>'}
+        ${next ? `<a class="lnav right" href="#lesson/${r.cid}/${next.id}"><div class="l-label">다음 수업 →</div><div class="l-title">${next.title}</div></a>` : '<div></div>'}
+      </div>
+    </div>`;
+    return html;
+  },
+  calendar(r){
+    const base = new Date();
+    base.setDate(1); base.setMonth(base.getMonth() + calOffset);
+    const y = base.getFullYear(), m = base.getMonth();
+    const dToday = new Date();
+    const monthKey = y+'-'+pad(m+1);
+    const monthDates = doneDates().filter(d=>d.startsWith(monthKey));
+    const isThisMonth = calOffset===0;
+    const totalDone = Object.keys(done).length;
+    const streak = streakDays();
+    const cNotion = completedOf('notion').length, cExcel = completedOf('excel').length;
+    let html = `
+    <div class="cal-page-head">
+      <div><h1>학습 달력</h1><p class="cp-sub">형광으로 칠해진 날이 공부한 날이에요</p></div>
+      <div class="cal-nav">
+        <button onclick="calMove(-1)" aria-label="이전 달">‹</button>
+        <span class="ym">${y}년 ${m+1}월</span>
+        <button onclick="calMove(1)" aria-label="다음 달">›</button>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="s-v">${monthDates.length}<small> 일</small></div><div class="s-k">이번 달 공부한 날</div></div>
+      <div class="stat"><div class="s-v">${streak}<small> 일</small></div><div class="s-k">연속 학습 중</div></div>
+      <div class="stat"><div class="s-v">${totalDone}<small> 강</small></div><div class="s-k">총 완료한 강의</div></div>
+    </div>
+    <div class="cal-big">${bigCal(y, m, isThisMonth)}</div>
+    <div class="cal-legend">
+      <span class="lg"><span class="swatch" style="background:var(--amber-soft);box-shadow:inset 0 0 0 1.5px #F0DEA0"></span> 공부한 날</span>
+      <span class="lg"><span class="swatch" style="background:var(--primary-soft);box-shadow:inset 0 0 0 1.5px #D9DCFC"></span> 노션 강의</span>
+      <span class="lg"><span class="swatch" style="background:var(--excel-soft);box-shadow:inset 0 0 0 1.5px #C9EBDD"></span> 엑셀 강의</span>
+      <span class="lg"><span class="swatch" style="background:var(--surface);box-shadow:inset 0 0 0 2px var(--primary)"></span> 오늘</span>
+    </div>
+    <div class="sec-head"><h2>강좌별 현황</h2></div>
+    <div class="course-grid" style="grid-template-columns:1fr 1fr">
+      <div class="course-card cc-notion" style="cursor:pointer" onclick="location.hash='course/notion'">
+        <div class="cc-icon">📄</div><h3>${COURSES.notion.name}</h3><p class="cc-sub">${COURSES.notion.tagline}</p>
+        <div class="progress"><i style="width:${Math.round(cNotion/14*100)}%"></i></div>
+        <div class="progress-label"><span>진도율</span><b>${Math.round(cNotion/14*100)}%</b> <span>${cNotion}/14강</span></div>
+      </div>
+      <div class="course-card cc-excel" style="cursor:pointer" onclick="location.hash='course/excel'">
+        <div class="cc-icon">📊</div><h3>${COURSES.excel.name}</h3><p class="cc-sub">${COURSES.excel.tagline}</p>
+        <div class="progress"><i style="width:${Math.round(cExcel/14*100)}%"></i></div>
+        <div class="progress-label"><span>진도율</span><b>${Math.round(cExcel/14*100)}%</b> <span>${cExcel}/14강</span></div>
+      </div>
+    </div>`;
+    return html;
+  }
+};
+
+/* ── 미니 달력 ── */
+function miniCal(y, m){
+  const first = new Date(y, m, 1);
+  const startDow = first.getDay();
+  const days = new Date(y, m+1, 0).getDate();
+  const todayStrK = todayStr();
+  const todayD = new Date();
+  let html = `<div class="cal-dow">${['일','월','화','수','목','금','토'].map(d=>`<span>${d}</span>`).join('')}</div><div class="cal-grid">`;
+  for(let i=0;i<startDow;i++) html += `<div class="cal-cell blank"></div>`;
+  for(let d=1; d<=days; d++){
+    const key = y+'-'+pad(m+1)+'-'+pad(d);
+    const isToday = key===todayStrK;
+    const isDone = doneDates().includes(key);
+    const isWeekend = [0,6].includes(new Date(y,m,d).getDay());
+    html += `<div class="cal-cell ${isDone?'done':''} ${isToday?'today':''} ${isWeekend?'weekend':''}">${d}</div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+/* ── 큰 달력 ── */
+function bigCal(y, m, isThisMonth){
+  const first = new Date(y, m, 1);
+  const startDow = first.getDay();
+  const days = new Date(y, m+1, 0).getDate();
+  const todayKey = todayStr();
+  const domArr = ['일','월','화','수','목','금','토'];
+  const dayDoneMap = {};
+  Object.keys(done).forEach(lid=>{
+    const cid = lid.startsWith('n')?'notion':'excel';
+    const date = done[lid];
+    (dayDoneMap[date] = dayDoneMap[date] || []).push({cid, title: (COURSES[cid]? flatLessons(cid).find(l=>l.id===lid) : null)});
+  });
+  let html = `<div class="dow">${domArr.map(d=>`<span>${d}</span>`).join('')}</div><div class="grid">`;
+  for(let i=0;i<startDow;i++) html += `<div class="day out"></div>`;
+  for(let d=1; d<=days; d++){
+    const key = y+'-'+pad(m+1)+'-'+pad(d);
+    const marks = dayDoneMap[key] || [];
+    const isToday = key===todayKey;
+    const isWeekend = [0,6].includes(new Date(y,m,d).getDay());
+    html += `<div class="day ${marks.length?'done':''} ${isToday?'today':''} ${isWeekend&&!marks.length?'':''}">
+      <span class="d-n">${d}</span>
+      ${isWeekend?'<span class="d-wk">'+domArr[new Date(y,m,d).getDay()]+'</span>':''}
+      <div class="d-marks">${marks.map(mk=>`<span class="mk ${mk.cid==='notion'?'n':'x'}">${mk.title ? mk.title.split('·')[0] : mk.cid}</span>`).join('')}</div>
+    </div>`;
+  }
+  const tail = (startDow+days)%7; if(tail) for(let i=tail;i<7;i++) html += `<div class="day out"></div>`;
+  html += `</div>`;
+  return html;
+}
+function calMove(n){ calOffset += n; route(); }
+
+/* ── 최근 기록 ── */
+function recentLog(){
+  const entries = Object.entries(done).map(([lid,date])=>{
+    const cid = lid.startsWith('n')?'notion':'excel';
+    const title = (flatLessons(cid).find(l=>l.id===lid)||{}).title || lid;
+    return {date, cid, title};
+  }).sort((a,b)=> b.date.localeCompare(a.date)).slice(0,5);
+  if(!entries.length) return `<div style="padding:18px 4px;color:var(--sub);font-size:14px">아직 공부 기록이 없어요.<br>첫 수업을 완료해 보세요! ✨</div>`;
+  const dmap = {notion:'📄', excel:'📊'};
+  return entries.map(e=>`
+    <div class="recent-row">
+      <span class="r-date">${e.date.slice(5).replace('-','.')}</span>
+      <span class="r-dot" style="background:${e.cid==='notion'?'var(--primary)':'var(--excel)'}"></span>
+      <span class="r-title">${e.title}</span>
+      <span class="r-course ${e.cid}">${dmap[e.cid]} ${COURSES[e.cid].name}</span>
+    </div>`).join('');
+}
+
+/* ── 완료 토글 ── */
+function toggleDone(cid, lid){
+  const isN = cid==='notion';
+  if(done[lid]){
+    delete done[lid];
+    save();
+    toast('완료를 취소했어요. 달력 기록도 함께 지워졌어요.');
+  } else {
+    done[lid] = todayStr();
+    save();
+    toast(`✓ <b>수강 완료!</b> ${fmtDate(todayStr())}이 달력에 기록됐어요.`);
+  }
+  route();
+}
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+route();
+</script>
+</body>
+</html>
